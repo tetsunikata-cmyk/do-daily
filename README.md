@@ -1,24 +1,115 @@
-# README
+# DO DAILY.
+Make habits a superpower.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+---
 
-Things you may want to cover:
+## Overview
+DO DAILY. は、感情やモチベーションに左右されず、学習や行動を “習慣” として継続できるようにする習慣構築アプリです。  
+「やる気」ではなく「仕組み」で成長を継続させることを目的としています。
 
-* Ruby version
+---
 
-* System dependencies
+## Background / Why I Built This
+未経験からエンジニアを目指す中で、最も重要なのは「毎日学習を積み重ねられるか」だと痛感しました。
 
-* Configuration
+しかし、やる気・自信・モチベーションなどの感情には波があり、そこに頼った学習では継続が困難であることを自らの経験で理解しました。
 
-* Database creation
+そこで本アプリでは、
 
-* Database initialization
+「意志の強さではなく、再現性のある習慣の仕組みによって学習を継続させる」
 
-* How to run the test suite
+という考えを軸に開発しました。
 
-* Services (job queues, cache servers, search engines, etc.)
+---
 
-* Deployment instructions
+## Problem / Pain Points
+| 課題 | DO DAILY. が行う解決 |
+|------|----------------------|
+| 学習が続かない | 習慣化により毎日継続できる |
+| モチベーションに依存してしまう | 感情に揺らがない仕組みで行動する |
+| 目標を忘れてしまう | 行動理由・目標を常に可視化 |
+| 3日坊主で挫折 | 小さな成功体験の積み重ねを見える化 |
 
-* ...
+---
+
+## Concept
+人は感情に揺らぐ生き物。  
+だからこそ、弱さを “仕組み” で補うのがエンジニアリングだ。
+
+DO DAILY. は以下の 3 つの設計思想をもとに作られています：
+
+1. 行動理由の見える化（内発的動機付け）
+2. 小さな成功体験を積み重ねる仕組み（自己効力感の形成）
+3. 失敗しても再開しやすい設計（完璧主義の排除）
+
+---
+
+## Features
+| 機能 | 目的 |
+|------|------|
+| 目標設定（理由の言語化） | 「なぜやるのか」を常に視界に置く |
+| 習慣タスクの登録／編集／削除 | 行動の設計 |
+| 完了チェック／連続記録（Streak） | 成功体験の積み重ね |
+| 達成グラフ表示 | 成長を視覚化 |
+| リマインド通知 | 「忘れていた」を防止 |
+| マイページ（累積習慣データ） | 自己成長の確認 |
+
+---
+
+## Design / Top Screen Philosophy
+余計な画面遷移・選択肢を排除し、  
+「やるべきことに向かわせる UI」を意識しています。
+
+---
+
+## Tech Stack
+| カテゴリ | 使用技術 |
+|----------|----------|
+| フロントエンド | HTML / CSS / JavaScript |
+| バックエンド | Ruby on Rails |
+| DB | MySQL / PostgreSQL |
+| 認証 | devise |
+| グラフ | Chart.js |
+| 画像保存 | ActiveStorage |
+| インフラ | Render / AWS 予定 |
+
+※ 実装後に確定版へ更新予定
+
+---
+
+## ER Diagram
+（後で貼り付け予定）
+
+---
+
+## Future Development
+- 習慣仲間との SNS 共有機能
+- 週間 / 月間レポート
+- 未来の自分からメッセージが届く機能
+- 習慣 AI コーチ（行動と感情データから助言）
+
+---
+
+## Goal of This App
+DO DAILY. は、単なる ToDo アプリではなく、
+
+「継続できない人でも継続できる男をつくるアプリ」
+
+であることを目指しています。
+
+開発者自身がエンジニアとして学習を積み重ね続けるための基盤として、今後も改良・アップデートを継続します。
+
+---
+
+## Author
+Tetsu Nikata  
+(GitHub / X / Portfolio URL 追加予定)
+
+---
+
+## Message
+「努力できる人が強いんじゃない。  
+努力を習慣にできる人が強い。」
+
+DO DAILY.
+Make habits a superpower.
