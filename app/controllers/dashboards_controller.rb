@@ -5,10 +5,21 @@ class DashboardsController < ApplicationController
     @user   = current_user
     @habits = current_user.habits.includes(:habit_logs)
 
+    logs_scope = HabitLog.joins(:habit).where(habits: { user_id: @user.id })
+
     @total_habits         = @habits.count
-    @total_logs           = HabitLog.joins(:habit).where(habits: { user_id: @user.id }).count
-    @today_done_count     = HabitLog.joins(:habit).where(habits: { user_id: @user.id }, done_on: Date.current).count
+    @total_logs           = logs_scope.count
+    @today_done_count     = logs_scope.where(done_on: Date.current).count
     @longest_streak_value = @habits.map(&:current_streak).max || 0
+
+    # ▼ グラフ用データ（直近7日分）
+    start_date = 6.days.ago.to_date
+    end_date   = Date.current
+
+    @chart_labels = (start_date..end_date).map { |d| d.strftime("%m/%d") }
+    @chart_data   = (start_date..end_date).map do |d|
+      logs_scope.where(done_on: d).count
+    end
   end
 
   def update
