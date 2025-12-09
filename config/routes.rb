@@ -4,7 +4,8 @@ Rails.application.routes.draw do
 
   root "habits#index"
 
-  get "mypage", to: "dashboards#show" 
+  get   "mypage", to: "dashboards#show"
+  patch "mypage", to: "dashboards#update"
 
   resources :habits do
     resource :habit_log, only: [:create, :destroy]

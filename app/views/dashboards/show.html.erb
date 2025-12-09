@@ -1,2 +1,52 @@
-<h1>Dashboards#show</h1>
-<p>Find me in app/views/dashboards/show.html.erb</p>
+<h1>My Page</h1>
+
+<h2>Goal</h2>
+
+<%# 目標が未設定ならプレースホルダを表示 %>
+<p>
+  <strong>Goal title:</strong>
+  <%= current_user.goal_title.presence || "Not set yet" %><br>
+  <strong>Goal reason:</strong><br>
+  <%= simple_format(current_user.goal_reason.presence || "Not set yet") %>
+</p>
+
+<h3>Edit Goal</h3>
+<%= form_with model: current_user, url: mypage_path, method: :patch, local: true do |f| %>
+  <div>
+    <%= f.label :goal_title, "Goal title" %><br>
+    <%= f.text_field :goal_title %>
+  </div>
+
+  <div>
+    <%= f.label :goal_reason, "Why do you want it?" %><br>
+    <%= f.text_area :goal_reason, rows: 4 %>
+  </div>
+
+  <div>
+    <%= f.submit "Update goal" %>
+  </div>
+<% end %>
+
+<hr>
+
+<h2>Stats</h2>
+<ul>
+  <li>Total habits: <%= @total_habits %></li>
+  <li>Total done logs: <%= @total_logs %></li>
+  <li>Done today: <%= @today_done_count %></li>
+  <li>Longest current streak: <%= @longest_streak_value %> days</li>
+</ul>
+
+<hr>
+
+<h2>Your Habits</h2>
+<ul>
+  <% @habits.each do |habit| %>
+    <li>
+      <strong><%= habit.title %></strong>
+      - Current streak: <%= habit.current_streak %> days
+    </li>
+  <% end %>
+</ul>
+
+<p><%= link_to "Back to DO DAILY.", root_path %></p>
