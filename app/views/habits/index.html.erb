@@ -1,7 +1,9 @@
 <h1>DO DAILY.</h1>
 <p>You already know what to do.</p>
-
-<p><%= link_to "New Habit", new_habit_path %></p>
+<p>
+  <%= link_to "My Page", mypage_path %> |
+  <%= link_to "New Habit", new_habit_path %>
+</p>
 
 <ul>
   <% @habits.each do |habit| %>
