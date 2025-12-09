@@ -2,6 +2,8 @@ class Habit < ApplicationRecord
   belongs_to :user
   has_many :habit_logs, dependent: :destroy
 
+  enum category: { morning: 0, gap: 1, night: 2, other: 3 }, _default: :morning
+
   # 今日やったかどうか
   def done_today?
     habit_logs.exists?(done_on: Date.current)

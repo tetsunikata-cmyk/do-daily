@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_09_125426) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_09_132547) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_09_125426) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "category"
     t.index ["user_id"], name: "index_habits_on_user_id"
   end
 
@@ -66,6 +67,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_09_125426) do
     t.datetime "updated_at", null: false
     t.string "goal_title"
     t.text "goal_reason"
+    t.text "roadmap_text"
+    t.text "annual_schedule_text"
+    t.string "vision_text"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -10,6 +10,14 @@
   </div>
 
   <div>
+    <%= f.label :category, "カテゴリ" %><br>
+    <%= f.select :category, Habit.categories.keys.map { |k|
+      [ { "morning" => "朝習慣", "gap" => "隙間習慣",
+          "night" => "夜習慣", "other" => "その他" }[k], k ]
+    } %>
+  </div>
+
+  <div>
     <%= f.submit %>
   </div>
 <% end %>

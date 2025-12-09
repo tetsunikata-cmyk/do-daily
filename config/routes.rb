@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'goals/show'
   devise_for :users
 
   # 未ログイン用トップページ

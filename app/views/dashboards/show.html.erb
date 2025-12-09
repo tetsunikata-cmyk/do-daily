@@ -58,6 +58,11 @@
   <li>Longest current streak: <%= @longest_streak_value %> days</li>
 </ul>
 
+<p style="margin-top: 16px;">
+  <%= link_to "目標実現ページへ", goal_path,
+              style: "display:inline-block; background:#000; color:#fff; padding:12px 24px; text-decoration:none;" %>
+</p>
+
 <hr>
 
 <h2>Progress (last 7 days)</h2>
