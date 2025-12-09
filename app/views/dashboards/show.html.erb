@@ -2,6 +2,26 @@
 
 <h2>Goal</h2>
 
+<h2>実現したい写真</h2>
+
+<% if @user.goal_image.attached? %>
+  <div style="margin-bottom: 16px;">
+    <%= image_tag @user.goal_image, style: "max-width: 100%; height: auto;" %>
+  </div>
+<% else %>
+  <p>まだ画像が登録されていません。</p>
+<% end %>
+
+<h3>画像を編集</h3>
+<%= form_with model: @user, url: mypage_path,
+              method: :patch, local: true, html: { multipart: true } do |f| %>
+  <div>
+    <%= f.file_field :goal_image %>
+  </div>
+  <div style="margin-top: 8px;">
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>
 <%# 目標が未設定ならプレースホルダを表示 %>
 <p>
   <strong>Goal title:</strong>
@@ -11,7 +31,8 @@
 </p>
 
 <h3>Edit Goal</h3>
-<%= form_with model: current_user, url: mypage_path, method: :patch, local: true do |f| %>
+<%= form_with model: current_user, url: mypage_path,
+              method: :patch, local: true, html: { multipart: true } do |f| %>
   <div>
     <%= f.label :goal_title, "Goal title" %><br>
     <%= f.text_field :goal_title %>
