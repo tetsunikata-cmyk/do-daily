@@ -39,6 +39,47 @@
 
 <hr>
 
+<h2>Progress (last 7 days)</h2>
+
+<canvas id="habitsChart" width="400" height="200"></canvas>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  document.addEventListener("turbo:load", function() {
+    const canvas = document.getElementById('habitsChart');
+    if (!canvas) return; // 念のため
+
+    const ctx = canvas.getContext('2d');
+
+    const labels = <%= raw @chart_labels.to_json %>;
+    const data   = <%= raw @chart_data.to_json %>;
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Completed habits per day',
+          data: data
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { stepSize: 1 }
+          }
+        }
+      }
+    });
+  });
+</script>
+
+<hr>
+
 <h2>Your Habits</h2>
 <ul>
   <% @habits.each do |habit| %>
