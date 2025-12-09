@@ -1,26 +1,22 @@
 <h1>DO DAILY.</h1>
 <p>You already know what to do.</p>
 
-<%= link_to "New Habit", new_habit_path %>
+<p><%= link_to "New Habit", new_habit_path %></p>
 
 <ul>
   <% @habits.each do |habit| %>
-    <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
-
     <li>
-      <%= habit.title %>
-
-      <span>Streak: <%= habit.current_streak %> days</span>
-
-      <% if today_log.present? %>
-        <span>Done today ✅</span>
-        <%= button_to "Undo", habit_habit_log_path(habit), method: :delete %>
-      <% else %>
-        <%= button_to "Do today", habit_habit_log_path(habit), method: :post %>
+      <strong><%= habit.title %></strong>
+      <% if habit.description.present? %>
+        <br>
+        <small><%= habit.description %></small>
       <% end %>
 
+      |
       <%= link_to "Edit", edit_habit_path(habit) %>
-      <%= link_to "Delete", habit_path(habit), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+      |
+      <%= link_to "Delete", habit_path(habit),
+                  data: { turbo_method: :delete, turbo_confirm: "Delete this habit?" } %>
     </li>
   <% end %>
 </ul>

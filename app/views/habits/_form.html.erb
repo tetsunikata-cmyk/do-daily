@@ -1,0 +1,15 @@
+<%= form_with model: @habit, local: true do |f| %>
+  <div>
+    <%= f.label :title, "Habit title" %><br>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :description, "Description" %><br>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.submit %>
+  </div>
+<% end %>
