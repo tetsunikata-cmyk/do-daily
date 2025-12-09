@@ -5,16 +5,27 @@
 
 <ul>
   <% @habits.each do |habit| %>
-    <li>
+    <li style="margin-bottom: 16px;">
       <strong><%= habit.title %></strong>
       <% if habit.description.present? %>
         <br>
         <small><%= habit.description %></small>
       <% end %>
 
-      |
-      <%= link_to "Edit", edit_habit_path(habit) %>
-      |
+      <br>
+
+      <% if habit.done_today? %>
+        <span>Done today ✅</span>
+        <%= button_to "Undo", habit_habit_log_path(habit), method: :delete %>
+      <% else %>
+        <%= button_to "Do today", habit_habit_log_path(habit), method: :post %>
+      <% end %>
+
+      <br>
+      <span>Streak: <%= habit.current_streak %> days</span>
+
+      <br>
+      <%= link_to "Edit", edit_habit_path(habit) %> |
       <%= link_to "Delete", habit_path(habit),
                   data: { turbo_method: :delete, turbo_confirm: "Delete this habit?" } %>
     </li>
