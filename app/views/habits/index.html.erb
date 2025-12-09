@@ -10,5 +10,18 @@
       <%= link_to "Edit", edit_habit_path(habit) %>
       <%= link_to "Delete", habit_path(habit), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
     </li>
+
+    <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
+
+<li>
+  <%= habit.title %>
+
+  <% if today_log.present? %>
+    <span>Done today ✅</span>
+    <%= button_to "Undo", habit_habit_log_path(habit), method: :delete %>
+  <% else %>
+    <%= button_to "Do today", habit_habit_log_path(habit), method: :post %>
+  <% end %>
+</li>
   <% end %>
 </ul>
