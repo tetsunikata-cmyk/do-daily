@@ -289,3 +289,174 @@
   margin-top: 4px;
   font-size: 12px;
 }
+
+/* ===== goal(目標実現)ページの習慣カード ===== */
+
+.habit-section {
+  margin-top: 16px;
+}
+
+.habit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.habit-card {
+  padding: 12px 0;
+  border-top: 1px solid #333;
+}
+
+.habit-card:first-child {
+  border-top: none;
+}
+
+.habit-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.habit-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.habit-actions {
+  white-space: nowrap;
+}
+
+.habit-note {
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.habit-review-links {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.review-link {
+  margin-left: 4px;
+  text-decoration: underline;
+}
+
+.habit-edit-footer {
+  margin-top: 8px;
+  text-align: right;
+  font-size: 12px;
+}
+
+.habit-edit-row {
+  margin-top: 6px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.habit-edit-input {
+  flex: 1 1 140px;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.habit-edit-submit,
+.habit-delete-button {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+/* 朝／夜の固定振り返り ToDo（習慣と同じ見た目） */
+.habit-review-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.habit-review-item {
+  font-size: 16px;           /* .habit-title と同じ */
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.habit-section {
+  margin-top: 12px;
+}
+
+.habit-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+
+.habit-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.habit-time {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.habit-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.review-link {
+  margin-left: 6px;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.habit-actions {
+  margin-left: 12px;
+}
+
+.habit-edit-footer {
+  margin-top: 8px;
+  text-align: right;
+  font-size: 12px;
+}
+
+.habit-edit-row {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  align-items: center;
+}
+
+.habit-edit-time {
+  width: 90px;
+}
+
+.habit-edit-input {
+  flex: 1 1 120px;
+  padding: 4px;
+}
+
+.habit-edit-submit {
+  padding: 4px 8px;
+}
+
+.check-button {
+  background: #000;
+  color: #fff;
+  border: 1px solid #fff;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.check-button.done {
+  background: #fff;
+  color: #000;
+}
