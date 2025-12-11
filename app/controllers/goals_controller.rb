@@ -3,6 +3,6 @@ class GoalsController < ApplicationController
 
   def show
     @user   = current_user
-    @habits = current_user.habits.order(:category, :id)
+    @habits = @user.habits.order(:id) # 目標実現ページで表示する習慣
   end
 end
