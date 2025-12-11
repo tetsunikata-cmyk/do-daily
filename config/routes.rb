@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'reflections/index'
   devise_for :users
 
   # 未ログイン用トップページ
