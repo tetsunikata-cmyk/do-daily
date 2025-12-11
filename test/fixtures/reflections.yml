@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2025-12-11
+  today_task: MyText
+  review1: MyText
+  review2: MyText
+  summary: MyText
+  user: one
+
+two:
+  date: 2025-12-11
+  today_task: MyText
+  review1: MyText
+  review2: MyText
+  summary: MyText
+  user: two
