@@ -4,5 +4,6 @@ class GoalsController < ApplicationController
   def show
     @user   = current_user
     @habits = @user.habits.order(:id) # 目標実現ページで表示する習慣
+    @grouped_habits = @habits.group_by(&:category)
   end
 end

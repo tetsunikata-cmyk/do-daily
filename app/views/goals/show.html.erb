@@ -1,65 +1,142 @@
 <div class="page">
   <div class="page-header">目標実現</div>
 
-  <!-- 今月の目標／テーマ（上の黒い大きな枠） -->
+  <!-- 今月の目標・テーマ（編集ボタン付き） -->
   <div class="black-card">
-    <h2>今月の目標</h2>
-    <p><%= @user.goal_title.presence || "未設定" %></p>
+    <div class="card-header-row">
+      <div>
+        <h2>今月の目標</h2>
+        <p><%= @user.goal_title.presence || "まだ設定されていません。" %></p>
 
-    <h2 style="margin-top: 16px;">今月のテーマ</h2>
-    <p><%= @user.goal_reason.presence || "未設定" %></p>
+        <h2>今月のテーマ</h2>
+        <p><%= @user.goal_reason.presence || "まだ設定されていません。" %></p>
+      </div>
 
-    <p style="margin-top: 8px; font-size: 12px;">
-      ※ 目標の編集は <%= link_to "My page", mypage_path %> から行えます。
-    </p>
+      <details class="edit-inline">
+        <summary>編集</summary>
+        <%= form_with model: @user,
+                      url: mypage_path,
+                      method: :patch,
+                      local: true do |f| %>
+          <div style="margin-top: 8px;">
+            <%= f.label :goal_title, "今月の目標", style: "font-size: 12px;" %><br>
+            <%= f.text_field :goal_title, style: "width: 100%;" %>
+          </div>
+          <div style="margin-top: 8px;">
+            <%= f.label :goal_reason, "今月のテーマ", style: "font-size: 12px;" %><br>
+            <%= f.text_area :goal_reason, rows: 3, style: "width: 100%;" %>
+          </div>
+          <%= f.submit "更新", style: "margin-top: 4px;" %>
+        <% end %>
+      </details>
+    </div>
   </div>
 
-  <!-- 習慣ToDo（チェックリスト部分） -->
+  <!-- 習慣 ToDo -->
   <div class="black-card">
     <h2>習慣ToDo</h2>
 
-    <table class="habits-table">
-      <thead>
-        <tr>
-          <th>カテゴリ</th>
-          <th>習慣</th>
-          <th>実行したらチェック</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @habits.each do |habit| %>
-          <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
-          <tr>
-            <td><%= habit.category.presence || "-" %></td>
-            <td><%= habit.title %></td>
-            <td class="check-cell">
-              <% if today_log.present? %>
-                <%= button_to "完了済", habit_habit_log_path(habit),
-                              method: :delete,
-                              class: "check-button done" %>
-              <% else %>
-                <%= button_to "□", habit_habit_log_path(habit),
-                              method: :post,
-                              class: "check-button" %>
-              <% end %>
-            </td>
-          </tr>
+    <% [["朝習慣", "morning"], ["隙間習慣", "gap"], ["夜習慣", "night"]].each do |label, key| %>
+      <% habits = @grouped_habits[key] || [] %>
+
+      <section class="habit-section">
+        <h3 class="goal-section-title"><%= label %></h3>
+
+        <!-- カード型の習慣リスト -->
+        <ul class="habit-list">
+          <% habits.each do |habit| %>
+            <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
+
+            <li class="habit-card">
+              <div class="habit-main">
+                <div>
+                  <div class="habit-title"><%= habit.title %></div>
+                  <% if habit.description.present? %>
+                    <div class="habit-note"><%= habit.description %></div>
+                  <% end %>
+                </div>
+
+                <div class="habit-actions">
+                  <% if today_log.present? %>
+                    <%= button_to "完了済",
+                                  habit_habit_log_path(habit),
+                                  method: :delete,
+                                  class: "check-button done" %>
+                  <% else %>
+                    <%= button_to "□",
+                                  habit_habit_log_path(habit),
+                                  method: :post,
+                                  class: "check-button" %>
+                  <% end %>
+                </div>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+
+        <!-- 固定の振り返りリンク -->
+        <% if key == "morning" %>
+          <div class="habit-review-links">
+            朝の振り返り：
+            <%= link_to "①", reviews_path(anchor: "link1"), class: "review-link" %>
+            <%= link_to "②", reviews_path(anchor: "link2"), class: "review-link" %>
+          </div>
+        <% elsif key == "night" %>
+          <div class="habit-review-links">
+            夜の振り返り：
+            <%= link_to "③", reviews_path(anchor: "link3"), class: "review-link" %>
+            <%= link_to "④", reviews_path(anchor: "link4"), class: "review-link" %>
+          </div>
         <% end %>
-      </tbody>
-    </table>
 
-    <p class="note">
-      ※ 「□」を押すと今日の達成が登録されます。<br>
-      ※ 「完了済」を押すと今日の達成が取り消されます。
-    </p>
+        <!-- 編集・追加エリア（右下にまとめる、開いた人だけいじれる） -->
+        <div class="habit-edit-footer">
+          <details class="edit-inline">
+            <summary>このカテゴリの習慣を編集・追加</summary>
 
-    <p style="margin-top: 8px; font-size: 12px;">
-      習慣の追加・編集は
-      <%= link_to "こちら（習慣一覧）", habits_path %>
-    </p>
+            <% habits.each do |habit| %>
+              <div class="habit-edit-row">
+                <%= form_with model: habit, local: true do |f| %>
+                  <%= f.text_field :title,
+                                   class: "habit-edit-input",
+                                   placeholder: "習慣名" %>
+                  <%= f.text_field :description,
+                                   class: "habit-edit-input",
+                                   placeholder: "メモ（任意）" %>
+                  <%= f.submit "更新", class: "habit-edit-submit" %>
+                <% end %>
+
+                <%= button_to "削除",
+                              habit_path(habit),
+                              method: :delete,
+                              data: { turbo_confirm: "削除しますか？" },
+                              class: "habit-delete-button" %>
+              </div>
+            <% end %>
+
+            <div class="habit-edit-row">
+              <%= form_with model: Habit.new, url: habits_path, local: true do |f| %>
+                <%= f.hidden_field :category, value: key %>
+                <%= f.text_field :title,
+                                 placeholder: "新しい習慣名",
+                                 class: "habit-edit-input" %>
+                <%= f.text_field :description,
+                                 placeholder: "メモ（任意）",
+                                 class: "habit-edit-input" %>
+                <%= f.submit "追加", class: "habit-edit-submit" %>
+              <% end %>
+            </div>
+          </details>
+        </div>
+
+        <% unless key == "night" %>
+          <div style="height: 16px;"></div>
+        <% end %>
+      </section>
+    <% end %>
   </div>
 
-  <!-- 下ナビ（2×2レイアウト） -->
+  <!-- 下ナビ（My page と同じ 2×2 ボタン） -->
   <nav class="nav-grid">
     <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
     <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>

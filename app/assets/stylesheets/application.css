@@ -213,3 +213,79 @@
   font-size: 12px;
   line-height: 1.4;
 }
+
+.goal-section-title {
+  margin-top: 12px;
+  margin-bottom: 4px;
+  font-size: 16px;
+}
+
+/* 習慣編集用の小さめテキストボックス */
+.habit-edit-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 12px;
+  padding: 4px 6px;
+}
+
+/* 振り返りリンク */
+.review-link {
+  margin-left: 4px;
+  text-decoration: underline;
+  font-size: 12px;
+  color: #fff;
+}
+.review-link:visited {
+  color: #fff;
+}
+
+/* 目標実現ページ：習慣セクション間の余白 */
+.habit-section + .habit-section {
+  margin-top: 16px;
+}
+
+/* 習慣行の中身を横並びにしてスッキリ見せる */
+.habit-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.habit-title {
+  font-size: 14px;
+}
+
+/* link①〜④ の小さなボタン */
+.habit-ref-link {
+  font-size: 12px;
+}
+
+.review-link {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* 編集・追加・削除を右下寄せ */
+.habit-edit-footer {
+  margin-top: 6px;
+  text-align: right;
+  font-size: 12px;
+}
+
+.habit-edit-row {
+  margin-top: 6px;
+}
+
+.habit-edit-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 12px;
+  padding: 4px 6px;
+  margin-top: 2px;
+}
+
+.habit-edit-submit {
+  margin-top: 4px;
+  font-size: 12px;
+}
