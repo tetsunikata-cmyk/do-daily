@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_11_053148) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_11_064522) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,6 +67,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_11_053148) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "review_on"
+    t.text "challenge"
+    t.text "reflection1"
+    t.text "reflection2"
+    t.index ["user_id", "review_on"], name: "index_reflections_on_user_id_and_review_on", unique: true
     t.index ["user_id"], name: "index_reflections_on_user_id"
   end
 

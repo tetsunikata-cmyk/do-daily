@@ -1,0 +1,119 @@
+<!-- app/views/reflections/show.html.erb -->
+
+<div class="page">
+  <div class="page-header">振り返りを見る</div>
+
+  <!-- ===== 日付選択 & キーワード検索 ===== -->
+  <div class="black-card">
+    <h2>日付を選択</h2>
+
+    <!-- 日付切り替え用（GET /reviews?date=...） -->
+    <%= form_with url: reviews_path, method: :get, local: true do %>
+      <%= date_field_tag :date, @selected_date, class: "date-input" %>
+      <%= submit_tag "検索", name: nil %>
+    <% end %>
+
+    <p>今日は開始<%= @day_count %>日目</p>
+
+    <!-- キーワード検索（GET /reviews?date=...&query=...） -->
+    <%= form_with url: reviews_path, method: :get, local: true do %>
+      <%= hidden_field_tag :date, @selected_date %>
+      <%= text_field_tag :query, @query, placeholder: "キーワード検索" %>
+      <%= submit_tag "検索する" %>
+    <% end %>
+  </div>
+
+  <!-- ===== 本日の入力フォーム ===== -->
+  <div class="black-card">
+    <%= form_with model: @reflection,
+                  url: reviews_path,
+                  method: :patch,
+                  local: true do |f| %>
+
+      <!-- ここが超重要：どの日付のレコードかを hidden で渡す -->
+      <%= f.hidden_field :review_on, value: @selected_date %>
+
+      <h2>今日の課題</h2>
+      <%= f.text_area :challenge, rows: 3, style: "width: 100%;" %>
+
+      <h2>振り返り①</h2>
+      <%= f.text_area :reflection1, rows: 3, style: "width: 100%;" %>
+
+      <h2>振り返り②</h2>
+      <%= f.text_area :reflection2, rows: 3, style: "width: 100%;" %>
+
+      <h2>今日の振り返り</h2>
+      <%= f.text_area :summary, rows: 3, style: "width: 100%;" %>
+
+      <div style="margin-top: 8px;">
+        <%= f.submit "保存", class: "habit-edit-submit" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- ===== ③ 検索結果 ===== -->
+  <% if @query.present? %>
+    <div class="black-card">
+      <h2>「<%= @query %>」の検索結果</h2>
+
+      <% if @search_results.any? %>
+        <ul>
+          <% @search_results.each do |r| %>
+            <li style="margin-bottom: 8px;">
+              <strong>
+                <%= link_to r.review_on.strftime("%Y/%m/%d"),
+                            reviews_path(date: r.review_on.to_s) %>
+              </strong><br>
+              <span><%= truncate(r.summary.presence || r.challenge.to_s,
+                                 length: 40) %></span>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>該当する振り返りはありません。</p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <!-- ===== ④ 実行率グラフ（簡易） ===== -->
+  <div class="black-card">
+    <h2>直近7日間の実行率</h2>
+
+    <table class="yearly-table">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>実行率</th>
+          <th>グラフ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @completion_stats.each do |s| %>
+          <tr>
+            <td><%= s[:date].strftime("%m/%d") %></td>
+            <td><%= s[:rate] %>%</td>
+            <td>
+              <div style="width: 100%;">
+                <div style="display:inline-block;
+                            height:8px;
+                            width:<%= s[:rate] %>%;
+                            background:#fff;">
+                </div>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 下ナビ -->
+  <nav class="nav-grid">
+    <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
+    <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
+    <%= link_to "My page", mypage_path, class: "nav-button" %>
+    <%= link_to "ログアウト", destroy_user_session_path,
+                data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+                class: "nav-button" %>
+  </nav>
+</div>

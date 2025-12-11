@@ -1,28 +1,26 @@
+# config/routes.rb
+
 Rails.application.routes.draw do
-  get 'analytics/show'
-  get 'reflections/index'
   devise_for :users
 
-  # 未ログイン用トップページ
   root "pages#home"
 
-  # ログイン後のハブ（MyPage）
+  # MyPage
   get   "mypage", to: "dashboards#show"
   patch "mypage", to: "dashboards#update"
 
-  # 目標実現ページ
+  # 目標実現
   get "goal", to: "goals#show"
 
-  # 道しるべページ
+  # 道しるべ
   get   "roadmap", to: "roadmaps#show"
   patch "roadmap", to: "roadmaps#update"
 
-  # 振り返り（テキスト）ページ
-  get   "reviews",     to: "reflections#index"
-  post  "reviews",     to: "reflections#create"
-  patch "reviews/:id", to: "reflections#update", as: :review
-  get "analytics", to: "analytics#show"
-  # 習慣＋今日の実行ログ
+  # ★振り返り（全部 show / update に一本化）
+  get   "reviews", to: "reflections#show"
+  patch "reviews", to: "reflections#update"
+
+  # 習慣
   resources :habits do
     resource :habit_log, only: [:create, :destroy]
   end

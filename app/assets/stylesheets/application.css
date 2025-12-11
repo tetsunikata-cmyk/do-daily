@@ -540,3 +540,72 @@
   padding: 4px 8px;
   font-size: 14px;
 }
+
+.date-select {
+  width: 100%;
+  padding: 6px 8px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 6px 8px;
+}
+
+.textarea-full {
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 12px;
+}
+
+/* 検索結果 */
+.search-result-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0 0;
+}
+
+.search-result-list li {
+  margin-bottom: 8px;
+}
+
+.search-result-date {
+  font-weight: bold;
+  color: #fff;
+  text-decoration: underline;
+}
+
+.search-result-body {
+  font-size: 12px;
+}
+
+/* 実行率グラフ */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.progress-label {
+  width: 48px;
+  font-size: 12px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 10px;
+  background: #333;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-value {
+  height: 100%;
+  background: #fff;
+}
+
+.progress-rate {
+  width: 40px;
+  font-size: 12px;
+  text-align: right;
+}
