@@ -1,15 +1,68 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require_tree .
- *= require_self
- */
+.page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    Arial, "ヒラギノ角ゴ ProN", "Hiragino Kaku Gothic ProN",
+    "メイリオ", Meiryo, sans-serif;
+}
+
+.page-header {
+  display: inline-block;
+  background: #e6462c;
+  color: #fff;
+  padding: 8px 16px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.black-card {
+  background: #000;
+  color: #fff;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.black-card h2 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.nav-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.nav-button {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
+  text-align: center;
+  flex: 1 1 calc(50% - 8px);
+}
+
+.nav-button.full {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+.edit-block {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.edit-block > span {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.roadmap-display {
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+}
