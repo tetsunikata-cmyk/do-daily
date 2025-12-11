@@ -35,7 +35,14 @@ class DashboardsController < ApplicationController
 
     private
 
+  private
+
   def user_params
-    params.require(:user).permit(:goal_title, :goal_reason, :goal_image)
+    params.require(:user).permit(
+    :goal_title,
+    :goal_reason,
+    :goal_image,
+    :vision_text
+    )
   end
 end
