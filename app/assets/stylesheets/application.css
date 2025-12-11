@@ -460,3 +460,83 @@
   background: #fff;
   color: #000;
 }
+
+/* 道しるべ用 */
+.roadmap-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0 0;
+}
+
+.roadmap-list li {
+  margin-bottom: 4px;
+  font-size: 18px;
+}
+
+.roadmap-year {
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.roadmap-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.roadmap-year-select {
+  width: 90px;
+}
+
+.roadmap-title-input {
+  flex: 1;
+}
+
+.roadmap-actions {
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* 年間スケジュール用 */
+.yearly-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.yearly-table th,
+.yearly-table td {
+  padding: 4px 6px;
+}
+
+.yearly-table-readonly th,
+.yearly-table-readonly td {
+  border-top: 1px solid #fff;
+}
+
+.yearly-month {
+  width: 40px;
+  white-space: nowrap;
+}
+
+.yearly-input {
+  width: 100%;
+}
+
+.card-header-left {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.year-label {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.roadmap-year-select {
+  padding: 4px 8px;
+  font-size: 14px;
+}

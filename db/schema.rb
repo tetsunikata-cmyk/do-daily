@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_11_045413) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_11_053148) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -83,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_11_045413) do
     t.text "roadmap_text"
     t.text "annual_schedule_text"
     t.string "vision_text"
+    t.integer "annual_schedule_year"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

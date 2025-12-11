@@ -1,55 +1,141 @@
 <div class="page">
   <div class="page-header">道しるべを見る</div>
 
-  <!-- 上半分：道しるべ（2030〜2026年の階段） -->
+  <!-- ===== 道しるべ ===== -->
   <div class="black-card">
-    <h2>道しるべ</h2>
+    <div class="card-header-row">
+      <h2>道しるべ</h2>
 
-    <div class="roadmap-display">
-      <%= simple_format(@user.roadmap_text.presence || "まだ道しるべが登録されていません。") %>
+      <!-- 編集ボタンで開く -->
+      <details class="edit-inline">
+        <summary>編集</summary>
+
+        <%= form_with url: roadmap_path, method: :patch, local: true do |f| %>
+          <% @roadmap_items.each_with_index do |item, idx| %>
+            <div class="roadmap-row">
+              <%= select_tag "roadmap[#{idx}][year]",
+                             options_for_select(@roadmap_year_options, item[:year]),
+                             class: "roadmap-year-select" %>
+              <%= text_field_tag "roadmap[#{idx}][title]",
+                                 item[:title],
+                                 class: "roadmap-title-input",
+                                 placeholder: "例：世界大会優勝" %>
+            </div>
+          <% end %>
+
+          <div class="roadmap-actions">
+            <%= f.submit "保存", class: "habit-edit-submit" %>
+          </div>
+        <% end %>
+      </details>
     </div>
 
-    <div class="edit-block">
-      <span>編集</span>
-      <%= form_with model: @user, url: roadmap_path, method: :patch, local: true do |f| %>
-        <p>例）</p>
-        <p style="font-size: 12px; opacity: 0.8;">
-          2030年　世界大会優勝<br>
-          2029年　世界大会トップカット<br>
-          2028年　世界大会2日目まで勝ち上がる<br>
-          ...
-        </p>
-        <%= f.text_area :roadmap_text, rows: 8, style: "width: 100%;" %>
-        <%= f.submit "保存", style: "margin-top: 8px;" %>
+    <!-- 表示用リスト -->
+    <ul class="roadmap-list">
+      <% @roadmap_items.each do |item| %>
+        <% next if item[:title].blank? %>
+        <li>
+          <span class="roadmap-year"><%= item[:year] %>年</span>
+          <span class="roadmap-text"><%= item[:title] %></span>
+        </li>
       <% end %>
-    </div>
+    </ul>
   </div>
 
-  <!-- 下半分：年間スケジュール -->
+  <!-- ===== 年間スケジュール ===== -->
   <div class="black-card">
-    <h2>年間スケジュール</h2>
+    <div class="card-header-row">
+      <div class="card-header-left">
+        <h2>年間スケジュール</h2>
+        <span class="year-label"><%= @schedule_year %>年</span>
+      </div>
 
-    <div class="roadmap-display">
-      <%= simple_format(@user.annual_schedule_text.presence || "まだ年間スケジュールが登録されていません。") %>
+      <!-- 年の変更＆スケジュール編集をまとめた編集ボタン -->
+      <details class="edit-inline">
+        <summary>編集</summary>
+
+        <!-- 表示する年を変更（GET） -->
+        <%= form_with url: roadmap_path, method: :get, local: true do %>
+          <div style="margin-top: 8px;">
+            <label style="font-size: 12px;">表示する年を選択</label><br>
+            <%= select_tag :year,
+                  options_for_select(@schedule_year_options, @schedule_year),
+                  class: "roadmap-year-select" %>
+            <%= submit_tag "変更", style: "margin-left: 4px; font-size: 12px;" %>
+          </div>
+        <% end %>
+
+        <!-- 年間スケジュール編集（PATCH） -->
+        <%= form_with url: roadmap_path, method: :patch, local: true do |f| %>
+          <table class="yearly-table">
+            <thead>
+              <tr>
+                <th>月</th>
+                <th>予定</th>
+                <th>目標</th>
+                <th>結果</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% (1..12).each do |month| %>
+                <% row = @yearly_schedule[month] || { plan: "", target: "", result: "" } %>
+                <tr>
+                  <td class="yearly-month"><%= month %>月</td>
+                  <td>
+                    <%= text_field_tag "schedule[#{month}][plan]",
+                                       row[:plan],
+                                       class: "yearly-input",
+                                       placeholder: "例：地方大会①" %>
+                  </td>
+                  <td>
+                    <%= text_field_tag "schedule[#{month}][target]",
+                                       row[:target],
+                                       class: "yearly-input",
+                                       placeholder: "例：ベスト32" %>
+                  </td>
+                  <td>
+                    <%= text_field_tag "schedule[#{month}][result]",
+                                       row[:result],
+                                       class: "yearly-input",
+                                       placeholder: "例：ベスト8" %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+          <div class="roadmap-actions">
+            <%= f.submit "保存", class: "habit-edit-submit" %>
+          </div>
+        <% end %>
+      </details>
     </div>
 
-    <div class="edit-block">
-      <span>編集</span>
-      <%= form_with model: @user, url: roadmap_path, method: :patch, local: true do |f| %>
-        <p>例）</p>
-        <p style="font-size: 12px; opacity: 0.8;">
-          1月　地方大会①　ベスト4<br>
-          2月　福岡大会　ベスト32<br>
-          3月　地方大会②　優勝<br>
-          ...
-        </p>
-        <%= f.text_area :annual_schedule_text, rows: 8, style: "width: 100%;" %>
-        <%= f.submit "保存", style: "margin-top: 8px;" %>
-      <% end %>
-    </div>
+    <!-- 表示用テーブル（読み取り専用） -->
+    <table class="yearly-table yearly-table-readonly">
+      <thead>
+        <tr>
+          <th>月</th>
+          <th>予定</th>
+          <th>目標</th>
+          <th>結果</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% (1..12).each do |month| %>
+          <% row = @yearly_schedule[month] || { plan: "", target: "", result: "" } %>
+          <tr>
+            <td class="yearly-month"><%= month %>月</td>
+            <td><%= row[:plan].presence   || "—" %></td>
+            <td><%= row[:target].presence || "—" %></td>
+            <td><%= row[:result].presence || "—" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 
-   <!-- 下ナビ（2×2レイアウト） -->
+  <!-- 下ナビ -->
   <nav class="nav-grid">
     <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
     <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
