@@ -18,11 +18,11 @@
     </ul>
   </div>
 
-  <!-- 下ナビ（1つだけ文言変えた） -->
-  <nav class="nav-buttons">
+    <!-- 下ナビ（2×2レイアウト） -->
+   <nav class="nav-grid">
     <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
-    <%= link_to "振り返り（テキスト）", reviews_path, class: "nav-button" %>
-    <%= link_to "my page", mypage_path, class: "nav-button" %>
+    <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
+    <%= link_to "My page", mypage_path, class: "nav-button" %>
     <%= link_to "ログアウト", destroy_user_session_path,
                 data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
                 class: "nav-button" %>

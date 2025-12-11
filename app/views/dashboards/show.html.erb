@@ -1,94 +1,70 @@
 <div class="page">
   <div class="page-header">mypage</div>
 
-  <!-- 実現したい写真 -->
+  <!-- 実現したい未来（画像） -->
   <div class="black-card">
-    <h2>実現したい写真</h2>
+    <div class="card-header-row">
+      <h2>実現したい未来</h2>
+
+      <!-- 画像編集フォーム（折りたたみ） -->
+      <details class="edit-inline">
+        <summary>編集</summary>
+        <%= form_with model: @user,
+                      url: mypage_path,
+                      method: :patch,
+                      local: true,
+                      html: { multipart: true } do |f| %>
+          <div style="margin-top: 8px;">
+            <%= f.file_field :goal_image %>
+          </div>
+          <%= f.submit "更新", style: "margin-top: 4px;" %>
+        <% end %>
+      </details>
+    </div>
 
     <% if @user.goal_image&.attached? %>
-      <div style="margin-bottom: 12px;">
-        <%= image_tag @user.goal_image, style: "max-width: 100%; height: auto;" %>
+      <div class="goal-image-wrapper">
+        <%= image_tag @user.goal_image, class: "goal-image" %>
       </div>
     <% else %>
       <p>まだ画像が登録されていません。</p>
     <% end %>
-
-    <div class="edit-block">
-      <span>編集</span>
-      <%= form_with model: @user, url: mypage_path,
-                    method: :patch, local: true,
-                    html: { multipart: true } do |f| %>
-        <%= f.file_field :goal_image %>
-        <%= f.submit "更新", style: "margin-left: 8px;" %>
-      <% end %>
-    </div>
   </div>
 
   <!-- 達成したい文言 -->
   <div class="black-card">
-    <h2>達成したい文言</h2>
-    <p style="margin-bottom: 8px;">
+    <div class="card-header-row">
+      <h2>達成したい文言</h2>
+
+      <!-- 文言編集フォーム（折りたたみ） -->
+      <details class="edit-inline">
+        <summary>編集</summary>
+        <%= form_with model: @user,
+                      url: mypage_path,
+                      method: :patch,
+                      local: true do |f| %>
+          <div style="margin-top: 8px;">
+            <%= f.text_field :vision_text, style: "width: 100%;" %>
+          </div>
+          <%= f.submit "更新", style: "margin-top: 4px;" %>
+        <% end %>
+      </details>
+    </div>
+
+    <p class="vision-text">
       <%= @user.vision_text.presence || "まだ設定されていません。" %>
     </p>
-
-    <div class="edit-block">
-      <span>編集</span>
-      <%= form_with model: @user, url: mypage_path,
-                    method: :patch, local: true do |f| %>
-        <%= f.text_field :vision_text, style: "width: 100%;" %>
-        <%= f.submit "更新", style: "margin-top: 8px;" %>
-      <% end %>
-    </div>
   </div>
 
-  <!-- 目標（今月の目標／テーマ） -->
-  <div class="black-card">
-    <h2>Goal</h2>
-    <p>今月の目標：<%= @user.goal_title.presence || "未設定" %></p>
-    <p>今月のテーマ：<%= @user.goal_reason.presence || "未設定" %></p>
-
-    <div class="edit-block">
-      <span>編集</span>
-      <%= form_with model: @user, url: mypage_path,
-                    method: :patch, local: true do |f| %>
-        <div style="margin-bottom: 4px;">
-          <%= f.label :goal_title, "今月の目標" %><br>
-          <%= f.text_field :goal_title, style: "width: 100%;" %>
-        </div>
-        <div style="margin-bottom: 4px;">
-          <%= f.label :goal_reason, "今月のテーマ" %><br>
-          <%= f.text_area :goal_reason, rows: 2, style: "width: 100%;" %>
-        </div>
-        <%= f.submit "更新" %>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Stats -->
-  <div class="black-card">
-    <h2>Stats</h2>
-    <ul>
-      <li>Total habits: <%= @total_habits || 0 %></li>
-      <li>Total done logs: <%= @total_done_logs || 0 %></li>
-      <li>Done today: <%= @done_today || 0 %></li>
-      <li>Longest current streak: <%= @longest_streak || 0 %> days</li>
-    </ul>
-  </div>
-
-  <!-- Progress グラフ（既に実装済みのやつをそのまま使う想定） -->
-  <div class="black-card">
-    <h2>Progress (last 7 days)</h2>
-    <canvas id="habitsChart" width="400" height="200"></canvas>
-  </div>
-
-  <!-- 下部ナビ + 目標実現ボタン -->
+  <!-- 目標実現ボタン（でかい黒カード） -->
   <div class="black-card">
     <%= link_to "目標実現ボタン", goal_path, class: "nav-button full" %>
   </div>
 
-  <nav class="nav-buttons">
+   <!-- 下ナビ（2×2レイアウト） -->
+  <nav class="nav-grid">
     <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
-    <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %> <!-- 振り返りは後で実装 -->
+    <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
     <%= link_to "My page", mypage_path, class: "nav-button" %>
     <%= link_to "ログアウト", destroy_user_session_path,
                 data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
