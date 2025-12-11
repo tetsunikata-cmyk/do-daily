@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'analytics/show'
   get 'reflections/index'
   devise_for :users
 
