@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get   "reviews",     to: "reflections#index"
   post  "reviews",     to: "reflections#create"
   patch "reviews/:id", to: "reflections#update", as: :review
-
+  get "analytics", to: "analytics#show"
   # 習慣＋今日の実行ログ
   resources :habits do
     resource :habit_log, only: [:create, :destroy]
