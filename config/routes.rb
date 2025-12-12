@@ -1,5 +1,4 @@
 # config/routes.rb
-
 Rails.application.routes.draw do
   devise_for :users
 
@@ -16,9 +15,13 @@ Rails.application.routes.draw do
   get   "roadmap", to: "roadmaps#show"
   patch "roadmap", to: "roadmaps#update"
 
-  # ★振り返り（全部 show / update に一本化）
-  get   "reviews", to: "reflections#show"
-  patch "reviews", to: "reflections#update"
+  # 振り返り（Reflections）
+  get   "reviews", to: "reflections#show"   # 一覧兼フォーム
+  post  "reviews", to: "reflections#create" # 初回保存
+  patch "reviews", to: "reflections#update" # 更新
+
+  # 実行率グラフ（同ページにも出すけど、ルートは残してOK）
+  get "analytics", to: "analytics#show"
 
   # 習慣
   resources :habits do
