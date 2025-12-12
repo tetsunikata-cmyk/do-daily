@@ -1,32 +1,22 @@
 <div class="page">
-  <div class="page-header">振り返りを見る</div>
+  <div class="page-header">振り返りの記入</div>
 
-  <!-- ▼ 日付選択 -->
+  <!-- ▼ 日付選択 & 「今日は開始〇日目」 -->
   <div class="black-card">
     <h2>日付を選択</h2>
 
     <%= form_with url: reviews_path, method: :get, local: true do %>
       <%= date_field_tag :date, @selected_date, class: "date-input" %>
-      <%= submit_tag "検索", name: nil %>
+      <%= submit_tag "表示", name: nil %>
     <% end %>
 
     <p>今日は開始<%= @day_count %>日目</p>
-
-    <!-- キーワード検索 -->
-    <%= form_with url: reviews_path, method: :get, local: true do %>
-      <%= hidden_field_tag :date, @selected_date %>
-      <%= text_field_tag :q, @q, placeholder: "キーワード検索", class: "search-input" %>
-      <%= submit_tag "検索する" %>
-    <% end %>
   </div>
 
-  <!-- ▼ 振り返り入力フォーム（保存・更新できる） -->
+  <!-- ▼ 振り返り入力フォーム（この日付分だけ保存） -->
   <div class="black-card">
-    <%= form_with model: @reflection,
-                  url: review_path(date: @selected_date),
-                  method: :patch,
-                  local: true,
-                  data: { turbo: false } do |f| %>
+    <%= form_with model: @reflection, url: reviews_path, method: :patch, local: true do |f| %>
+      <%= f.hidden_field :review_on, value: @selected_date %>
 
       <h2>今日の課題</h2>
       <%= f.text_area :challenge, rows: 3, class: "textarea" %>
@@ -44,29 +34,13 @@
     <% end %>
   </div>
 
-  <!-- ▼ 実行率グラフ -->
-  <div class="black-card">
-    <h2>直近7日の実行率</h2>
-    <% @completion_stats.each do |s| %>
-      <div class="completion-row">
-        <span><%= s[:date].strftime("%m/%d") %></span>
-        <div class="completion-bar-outer">
-          <div class="completion-bar-inner" style="width: <%= s[:rate] %>%;">
-            <span class="completion-label"><%= s[:rate] %>%</span>
-          </div>
-        </div>
-      </div>
-    <% end %>
-  </div>
-
-  <!-- ▼ ナビ -->
+  <!-- ▼ 下ナビ -->
   <nav class="nav-grid">
     <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
-    <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
+    <%= link_to "振り返り検索", reviews_search_path, class: "nav-button" %>
     <%= link_to "My page", mypage_path, class: "nav-button" %>
-    <%= link_to "ログアウト",
-        destroy_user_session_path,
-        data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
-        class: "nav-button" %>
+    <%= link_to "ログアウト", destroy_user_session_path,
+                data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+                class: "nav-button" %>
   </nav>
 </div>

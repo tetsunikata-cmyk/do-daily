@@ -1,10 +1,7 @@
+# config/routes.rb
 Rails.application.routes.draw do
   devise_for :users
-
   root "pages#home"
-
-  # 検索（一覧・検索結果）画面
-  get "reviews", to: "reviews#index"
 
   # MyPage
   get   "mypage", to: "dashboards#show"
@@ -17,12 +14,10 @@ Rails.application.routes.draw do
   get   "roadmap", to: "roadmaps#show"
   patch "roadmap", to: "roadmaps#update"
 
-  # 振り返り（編集画面）
-  get   "review", to: "reflections#show"
-  patch "review", to: "reflections#update"
-
-  # 実行率グラフ
-  get "analytics", to: "analytics#show"
+  # 振り返り
+  get   "reviews",        to: "reflections#show"    # 振り返りの記入（1日分）
+  patch "reviews",        to: "reflections#update"  # 保存
+  get   "reviews/search", to: "reflections#search"  # 振り返り検索（編集不可）
 
   # 習慣
   resources :habits do
