@@ -1,0 +1,36 @@
+<div class="page">
+  <div class="page-header">振り返り検索</div>
+
+  <div class="black-card">
+    <h2>日付を選択</h2>
+
+    <%= form_with url: reviews_path, method: :get, local: true, data: { turbo: false } do %>
+      <%= date_field_tag :date, params[:date], class: "date-input" %>
+      <%= submit_tag "検索", name: nil %>
+    <% end %>
+
+    <%= form_with url: reviews_path, method: :get, local: true, data: { turbo: false } do %>
+      <%= text_field_tag :q, params[:q], placeholder: "キーワード検索", class: "search-input" %>
+      <%= submit_tag "検索する" %>
+    <% end %>
+  </div>
+
+  <% if @reflections.any? %>
+    <% @reflections.each do |r| %>
+      <div class="black-card">
+        <h2><%= r.review_on %></h2>
+
+        <p><strong>今日の課題：</strong><%= r.challenge %></p>
+        <p><strong>振り返り①：</strong><%= r.reflection1 %></p>
+        <p><strong>振り返り②：</strong><%= r.reflection2 %></p>
+        <p><strong>今日の振り返り：</strong><%= r.summary %></p>
+
+        <%= link_to "この日の振り返りを編集する",
+            review_path(date: r.review_on),
+            class: "nav-button" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p style="margin-top: 16px;">該当するデータがありません。</p>
+  <% end %>
+</div>

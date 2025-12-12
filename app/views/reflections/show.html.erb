@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-header">振り返りを見る</div>
 
-  <!-- ▼ 日付選択 & 「今日は開始〇日目」 -->
+  <!-- ▼ 日付選択 -->
   <div class="black-card">
     <h2>日付を選択</h2>
 
@@ -12,36 +12,39 @@
 
     <p>今日は開始<%= @day_count %>日目</p>
 
-    <!-- キーワード検索フォーム（過去分検索） -->
+    <!-- キーワード検索 -->
     <%= form_with url: reviews_path, method: :get, local: true do %>
-   <%= hidden_field_tag :date, @selected_date %>
-   <%= text_field_tag :q, @q, placeholder: "キーワード検索", class: "search-input" %>
-   <%= submit_tag "検索する" %>
-   <% end %>
+      <%= hidden_field_tag :date, @selected_date %>
+      <%= text_field_tag :q, @q, placeholder: "キーワード検索", class: "search-input" %>
+      <%= submit_tag "検索する" %>
+    <% end %>
   </div>
 
-  <!-- ▼ 振り返り入力フォーム（この日付分だけ保存） -->
- <div class="black-card">
-  <%= form_with url: reviews_path, method: :patch, scope: :reflection, local: true do |f| %>
-    <%= f.hidden_field :review_on, value: @selected_date %>
+  <!-- ▼ 振り返り入力フォーム（保存・更新できる） -->
+  <div class="black-card">
+    <%= form_with model: @reflection,
+                  url: review_path(date: @selected_date),
+                  method: :patch,
+                  local: true,
+                  data: { turbo: false } do |f| %>
 
-    <h2>今日の課題</h2>
-    <%= f.text_area :challenge, rows: 3, class: "textarea", value: @reflection.challenge %>
+      <h2>今日の課題</h2>
+      <%= f.text_area :challenge, rows: 3, class: "textarea" %>
 
-    <h2>振り返り①</h2>
-    <%= f.text_area :reflection1, rows: 3, class: "textarea", value: @reflection.reflection1 %>
+      <h2>振り返り①</h2>
+      <%= f.text_area :reflection1, rows: 3, class: "textarea" %>
 
-    <h2>振り返り②</h2>
-    <%= f.text_area :reflection2, rows: 3, class: "textarea", value: @reflection.reflection2 %>
+      <h2>振り返り②</h2>
+      <%= f.text_area :reflection2, rows: 3, class: "textarea" %>
 
-    <h2>今日の振り返り</h2>
-    <%= f.text_area :summary, rows: 3, class: "textarea", value: @reflection.summary %>
+      <h2>今日の振り返り</h2>
+      <%= f.text_area :summary, rows: 3, class: "textarea" %>
 
-    <%= f.submit "保存", class: "habit-edit-submit", style: "margin-top: 8px;" %>
-  <% end %>
- </div>
+      <%= f.submit "保存", class: "habit-edit-submit", style: "margin-top: 8px;" %>
+    <% end %>
+  </div>
 
-  <!-- ▼ 実行率グラフ（同一ページ内） -->
+  <!-- ▼ 実行率グラフ -->
   <div class="black-card">
     <h2>直近7日の実行率</h2>
     <% @completion_stats.each do |s| %>
@@ -56,13 +59,14 @@
     <% end %>
   </div>
 
-  <!-- ▼ 下ナビ -->
+  <!-- ▼ ナビ -->
   <nav class="nav-grid">
     <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
     <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
     <%= link_to "My page", mypage_path, class: "nav-button" %>
-    <%= link_to "ログアウト", destroy_user_session_path,
-                data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
-                class: "nav-button" %>
+    <%= link_to "ログアウト",
+        destroy_user_session_path,
+        data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
+        class: "nav-button" %>
   </nav>
 </div>
