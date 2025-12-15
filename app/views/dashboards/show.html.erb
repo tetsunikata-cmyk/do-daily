@@ -1,73 +1,41 @@
 <div class="page">
-  <div class="page-header">mypage</div>
 
-  <!-- 実現したい未来（画像） -->
+  <!-- 画像カード -->
   <div class="black-card">
-    <div class="card-header-row">
-      <h2>実現したい未来</h2>
+    <details class="edit-inline">
+      <summary>編集</summary>
+      <%= link_to "編集する", mypage_path, class: "review-link" %>
+    </details>
 
-      <!-- 画像編集フォーム（折りたたみ） -->
-      <details class="edit-inline">
-        <summary>編集</summary>
-        <%= form_with model: @user,
-                      url: mypage_path,
-                      method: :patch,
-                      local: true,
-                      html: { multipart: true } do |f| %>
-          <div style="margin-top: 8px;">
-            <%= f.file_field :goal_image %>
-          </div>
-          <%= f.submit "更新", style: "margin-top: 4px;" %>
-        <% end %>
-      </details>
-    </div>
-
-    <% if @user.goal_image&.attached? %>
-      <div class="goal-image-wrapper">
+    <div class="goal-image-wrapper">
+      <% if @user.goal_image.attached? %>
         <%= image_tag @user.goal_image, class: "goal-image" %>
-      </div>
-    <% else %>
-      <p>まだ画像が登録されていません。</p>
-    <% end %>
+      <% else %>
+        <div style="height: 200px; background: #0a0a0a;"></div>
+      <% end %>
+    </div>
   </div>
 
-  <!-- 達成したい文言 -->
+  <!-- 文言カード -->
   <div class="black-card">
-    <div class="card-header-row">
-      <h2>達成したい文言</h2>
-
-      <!-- 文言編集フォーム（折りたたみ） -->
-      <details class="edit-inline">
-        <summary>編集</summary>
-        <%= form_with model: @user,
-                      url: mypage_path,
-                      method: :patch,
-                      local: true do |f| %>
-          <div style="margin-top: 8px;">
-            <%= f.text_field :vision_text, style: "width: 100%;" %>
-          </div>
-          <%= f.submit "更新", style: "margin-top: 4px;" %>
-        <% end %>
-      </details>
-    </div>
+    <h2>達成したい文言</h2>
 
     <p class="vision-text">
-      <%= @user.vision_text.presence || "まだ設定されていません。" %>
+      <%= @user.vision_text.presence || "2030年にエンジニアリングマネージャーになる。" %>
     </p>
   </div>
 
-  <!-- 目標実現ボタン（でかい黒カード） -->
-  <div class="black-card">
-    <%= link_to "目標実現ボタン", goal_path, class: "nav-button full" %>
-  </div>
+  <!-- メインボタン -->
+  <%= link_to "目標実現", roadmap_path, class: "ignite-button" %>
 
-   <!-- 下ナビ（2×2レイアウト） -->
+  <!-- ナビ -->
   <nav class="nav-grid">
-    <%= link_to "道しるべを見る", roadmap_path, class: "nav-button" %>
-    <%= link_to "振り返りを見る", reviews_path, class: "nav-button" %>
-    <%= link_to "My page", mypage_path, class: "nav-button" %>
+    <%= link_to "道しるべを見る", roadmap_path, class: "nav-link-item" %>
+    <%= link_to "振り返りを見る", reviews_search_path, class: "nav-link-item" %>
+    <%= link_to "My page", mypage_path, class: "nav-link-item" %>
     <%= link_to "ログアウト", destroy_user_session_path,
                 data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
-                class: "nav-button" %>
+                class: "nav-link-item" %>
   </nav>
+
 </div>
