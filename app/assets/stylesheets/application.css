@@ -100,3 +100,6 @@ a, a:visited {
   border-radius: 12px;
   color: #ffffff !important;
 }
+
+.inline-form { display: inline; margin: 0; }
+.nav-button.nav-button--inline { width: auto; padding: 10px 14px; }
