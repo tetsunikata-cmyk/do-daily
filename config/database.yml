@@ -8,7 +8,7 @@ development:
   username: root
   password:
   host: localhost
-  database: do-daily_development
+  database: do_daily_development
 
 test:
   <<: *default
@@ -16,7 +16,7 @@ test:
   username: root
   password:
   host: localhost
-  database: do-daily_test
+  database: do_daily_test
 
 production:
   <<: *default
