@@ -81,46 +81,9 @@ ToDo 管理ではなく、
 
 ---
 
-## データベース設計
+## データベース設計（ER図）
 
-### users
-| Column | Type |
-|------|------|
-| email | string |
-| password | string |
-
-### habits
-| Column | Type |
-|------|------|
-| title | string |
-| description | text |
-| user_id | integer |
-
-### habit_logs
-| Column | Type |
-|------|------|
-| habit_id | integer |
-| done_on | date |
-
-### reflections
-| Column | Type |
-|------|------|
-| review_on | date |
-| challenge | text |
-| reflection1 | text |
-| reflection2 | text |
-| summary | text |
-| user_id | integer |
-
----
-
-## 画面遷移図
-- トップページ  
-- 新規登録 / ログイン  
-- 習慣一覧  
-- 振り返り記入  
-- 振り返り検索  
-- マイページ  
+![ER図](docs/er_diagram.png)
 
 ---
 
