@@ -1,13 +1,22 @@
-<div class="page">
-  <div class="page-header">Toppage</div>
+<div class="home">
+  <!-- ここに既存のトップページのHTMLを丸ごと入れる（削除しない） -->
+  <div class="home-vibe-blob"></div>
+  <div class="home-vibe-blob home-vibe-blob--2"></div>
 
-  <div class="black-card" style="margin-top: 16px;">
-    <h1 style="font-size: 28px; margin-bottom: 8px;">Do daily</h1>
-    <p>~ you already know what to do ~</p>
+  <div class="home-content">
+    <!-- ここに既存の <div class="page"> ... をそのまま貼る -->
+    <div class="page">
+      <div class="page-header">Toppage</div>
+
+      <div class="black-card" style="margin-top: 16px;">
+        <h1 style="font-size: 28px; margin-bottom: 8px;">Do daily</h1>
+        <p>~ you already know what to do ~</p>
+      </div>
+
+    <nav class="nav-buttons">
+  <%= link_to "ログイン", new_user_session_path, class: "nav-button nav-button--login" %>
+  <%= link_to "新規登録", new_user_registration_path, class: "nav-button" %>
+    </nav>
+    </div>
   </div>
-
-  <nav class="nav-buttons">
-    <%= link_to "ログイン", new_user_session_path, class: "nav-button" %>
-    <%= link_to "新規登録", new_user_registration_path, class: "nav-button" %>
-  </nav>
 </div>

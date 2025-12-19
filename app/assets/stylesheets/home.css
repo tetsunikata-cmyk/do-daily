@@ -1,0 +1,92 @@
+.home {
+  --sexy-blue: rgba(60, 130, 246, 0.15);
+  --sexy-purple: rgba(139, 92, 246, 0.15);
+
+  background-color: #000;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+}
+
+.home .home-vibe-blob {
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, var(--sexy-blue) 0%, transparent 60%);
+  top: -200px;
+  right: -200px;
+  filter: blur(100px);
+  z-index: 0;
+  animation: homePulse 10s infinite alternate;
+}
+
+.home .home-vibe-blob--2 {
+  background: radial-gradient(circle, var(--sexy-purple) 0%, transparent 60%);
+  top: auto;
+  bottom: -300px;
+  left: -200px;
+  animation: homePulse 12s infinite alternate-reverse;
+}
+
+@keyframes homePulse {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(50px, 50px) scale(1.1); }
+}
+
+.home .home-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  max-width: 480px;
+  padding: 40px 24px;
+}
+
+/* ✅ タイトルが見えない対策（homeの中だけ） */
+.home .black-card,
+.home .black-card h1,
+.home .black-card p,
+.home .page-header {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* ボタン群（ログイン/新規登録を同仕様に統一） */
+.home .nav-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.home .nav-buttons a.nav-button {
+  display: block;
+  padding: 22px 0;
+  border-radius: 100px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.03);
+  color: #fff;
+
+  backdrop-filter: blur(10px);
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+              box-shadow 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+              background 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+              border-color 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.home .nav-buttons a.nav-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.30);
+  transform: translateY(-5px);
+}
+
+
