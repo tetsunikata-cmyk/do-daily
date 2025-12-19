@@ -1,36 +1,53 @@
-<div class="top-hero-page">
-  <div class="hero-glow"></div>
-  
-  <div class="hero-card">
-    <header class="hero-header">
-      <h1 class="hero-title">Join Us</h1>
-      <p class="hero-subtitle">create your daily account</p>
-    </header>
+<div class="page">
+  <div class="page-header">新規登録</div>
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "hero-actions" }) do |f| %>
+  <div class="black-card">
+    <h2 style="margin-bottom: 12px;">アカウントを作成</h2>
+
+    <%= form_with model: resource,
+                  url: registration_path(resource_name),
+                  local: true do |f| %>
+
       <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="field">
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "メールアドレス", class: "cta-input" %>
+      <div style="margin-bottom: 12px;">
+        <%= f.label :email, "メールアドレス" %><br>
+        <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              class: "input" %>
       </div>
 
-      <div class="field">
-        <%= f.password_field :password, autocomplete: "new-password", placeholder: "パスワード (#{@minimum_password_length}文字以上)", class: "cta-input" %>
+      <div style="margin-bottom: 12px;">
+        <%= f.label :password, "パスワード" %>
+        <% if @minimum_password_length %>
+          <small>（<%= @minimum_password_length %>文字以上）</small>
+        <% end %><br>
+        <%= f.password_field :password,
+              autocomplete: "new-password",
+              class: "input" %>
       </div>
 
-      <div class="field">
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "パスワード (確認)", class: "cta-input" %>
+      <div style="margin-bottom: 16px;">
+        <%= f.label :password_confirmation, "パスワード（確認）" %><br>
+        <%= f.password_field :password_confirmation,
+              autocomplete: "new-password",
+              class: "input" %>
       </div>
 
-      <div class="actions">
-        <%= f.submit "アカウント作成", class: "cta-button" %>
-      </div>
+      <%= f.submit "登録する",
+            class: "nav-button",
+            style: "width:100%;" %>
     <% end %>
 
-    <div class="hero-footer-links">
-      <%= render "devise/shared/links" %>
-      <br>
-      <%= link_to "TOPへ戻る", root_path, class: "back-link" %>
+    <div style="margin-top: 14px;">
+      <%= link_to "すでにアカウントをお持ちの方はこちら",
+                  new_session_path(resource_name),
+                  class: "review-link" %>
     </div>
   </div>
+
+  <nav class="nav-grid">
+    <%= link_to "TOPへ戻る", root_path, class: "nav-button" %>
+  </nav>
 </div>
