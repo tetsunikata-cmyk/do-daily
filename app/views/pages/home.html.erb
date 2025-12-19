@@ -1,13 +1,16 @@
-<div class="page">
-  <div class="page-header">Toppage</div>
+<div class="top-hero-page">
+  <div class="hero-glow"></div>
+  
+  <div class="hero-card">
+    <header class="hero-header">
+      <h1 class="hero-title">Do Daily</h1>
+      <p class="hero-subtitle">you already know what to do</p>
+    </header>
 
-  <div class="black-card" style="margin-top: 16px;">
-    <h1 style="font-size: 28px; margin-bottom: 8px;">Do daily</h1>
-    <p>~ you already know what to do ~</p>
+    <nav class="hero-actions">
+      <%# classをcta-buttonに統一。login/registerの区別は不要なため共通化 %>
+      <%= link_to "ログイン", new_user_session_path, class: "cta-button" %>
+      <%= link_to "新規登録", new_user_registration_path, class: "cta-button" %>
+    </nav>
   </div>
-
-  <nav class="nav-buttons">
-    <%= link_to "ログイン", new_user_session_path, class: "nav-button" %>
-    <%= link_to "新規登録", new_user_registration_path, class: "nav-button" %>
-  </nav>
 </div>
