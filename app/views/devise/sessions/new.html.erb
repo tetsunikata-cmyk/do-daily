@@ -1,42 +1,37 @@
-<div class="page">
-  <div class="page-header">ログイン</div>
+<div class="top-hero-page">
+  <div class="hero-glow"></div>
+  
+  <div class="hero-card">
+    <header class="hero-header">
+      <h1 class="hero-title">Welcome</h1>
+      <p class="hero-subtitle">Enter your credentials</p>
+    </header>
 
-  <div class="black-card">
-    <h2 style="margin-bottom: 12px;">アカウントにログイン</h2>
-
-    <%= form_with scope: resource_name,
-                  url: session_path(resource_name),
-                  local: true do |f| %>
-
-      <div style="margin-bottom: 12px;">
-        <%= f.label :email, "メールアドレス" %><br>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input" %>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "hero-actions" }) do |f| %>
+      <div class="field">
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "メールアドレス", class: "cta-input" %>
       </div>
 
-      <div style="margin-bottom: 12px;">
-        <%= f.label :password, "パスワード" %><br>
-        <%= f.password_field :password, autocomplete: "current-password", class: "input" %>
+      <div class="field">
+        <%= f.password_field :password, autocomplete: "current-password", placeholder: "パスワード", class: "cta-input" %>
       </div>
 
       <% if devise_mapping.rememberable? %>
-        <div style="margin-bottom: 12px;">
-          <label style="display:flex;gap:8px;align-items:center;">
-            <%= f.check_box :remember_me %>
-            <span>ログイン状態を保持する</span>
-          </label>
+        <div class="remember-me">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me, "ログイン状態を保持する" %>
         </div>
       <% end %>
 
-      <%= f.submit "ログイン", class: "nav-button", style: "width: 100%;" %>
+      <div class="actions">
+        <%= f.submit "ログイン", class: "cta-button" %>
+      </div>
     <% end %>
 
-    <div style="margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap;">
-      <%= link_to "新規登録", new_registration_path(resource_name), class: "review-link" %>
-      <%= link_to "パスワードを忘れた", new_password_path(resource_name), class: "review-link" %>
+    <div class="hero-footer-links">
+      <%= render "devise/shared/links" %>
+      <br>
+      <%= link_to "TOPへ戻る", root_path, class: "back-link" %>
     </div>
   </div>
-
-  <nav class="nav-grid">
-    <%= link_to "TOPへ戻る", root_path, class: "nav-button" %>
-  </nav>
 </div>
