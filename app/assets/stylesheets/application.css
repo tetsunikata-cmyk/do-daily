@@ -27,6 +27,7 @@
   margin-bottom: 20px;
   position: relative;
   overflow: hidden;
+  color: #ffffff;
 }
 
 /* 画像専用コンテナ：余白なし */
@@ -150,3 +151,14 @@
 .btn-primary:hover {
   background: #1a1a1a;
 }
+
+/* 黒カード内のリンクだけ、白系に寄せる（habitsの青リンク対策） */
+.black-card a,
+.black-card a:visited {
+  color: rgba(255,255,255,0.85);
+  text-decoration: underline;
+}
+.black-card a:hover {
+  color: rgba(255,255,255,1);
+}
+

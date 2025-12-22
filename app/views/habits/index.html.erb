@@ -1,63 +1,60 @@
-<div class="page">
-  <div class="page-header">DO DAILY.</div>
-
-  <div class="black-card">
-    <h2 style="margin:0 0 8px 0;">Do daily</h2>
-    <p class="quiet-text" style="margin:0 0 16px 0;">You already know what to do.</p>
-
-    <div class="nav-grid" style="margin-top: 16px;">
-      <%= link_to "My page", mypage_path, class: "nav-button secondary" %>
-      <%= link_to "New Habit", new_habit_path, class: "nav-button" %>
-    </div>
+<div class="habits">
+  <div class="habits__header">
+    <h1 class="habits__page-title">My Habits</h1>
+    <%= link_to 'New Habit', new_habit_path, class: "habits-btn habits-btn--primary" %>
   </div>
 
-  <% (@habits || []).each do |habit| %>
-    <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
+  <div class="habits__grid">
+    <% @habits.each do |habit| %>
+      <div class="habits-card">
+        <div class="habits-card__content">
+          <% link_target =
+            if habit.title.include?("link①")
+              reviews_search_path(type: "morning")
+            elsif habit.title.include?("link②")
+              reviews_search_path(type: "night")
+            elsif habit.title.include?("link③")
+              reviews_search_path(type: "today")
+            elsif habit.title.include?("link④")
+              reviews_search_path(type: "week")
+            end
+          %>
 
-    <div class="black-card">
-      <h2 style="margin:0 0 8px 0;"><%= habit.title %></h2>
+          <h2 class="habits-title">
+            <% if link_target.present? %>
+              <%= link_to habit.title, link_target, class: "habits-title__link" %>
+            <% else %>
+              <%= habit.title %>
+            <% end %>
+          </h2>
 
-      <% if habit.description.present? %>
-        <p class="quiet-text" style="margin:0 0 16px 0;"><%= habit.description %></p>
-      <% end %>
+          <p class="habits-desc"><%= habit.description %></p>
+        </div>
 
-  <div style="display:flex; gap:12px; align-items:center; margin-bottom: 16px;">
-  <% if today_log.present? %>
-    <span class="quiet-text">Done today ✅</span>
-    <%= link_to "Undo",
-          habit_habit_log_path(habit),
-          data: { turbo_method: :delete },
-          class: "nav-button secondary",
-          style: "width:auto; padding:10px 14px;" %>
-  <% else %>
-    <%= link_to "Do today",
-          habit_habit_log_path(habit),
-          data: { turbo_method: :post },
-          class: "nav-button",
-          style: "width:auto; padding:10px 14px;" %>
-  <% end %>
-</div>
+        <div class="habits-actions">
+          <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
 
-      <div class="nav-grid">
-        <%= link_to "Edit", edit_habit_path(habit), class: "nav-button secondary" %>
-        <%= link_to "Delete",
-              habit_path(habit),
-              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-              class: "nav-button secondary" %>
+          <% if today_log.present? %>
+            <%= button_to "Undo",
+              habit_habit_log_path(habit),
+              method: :delete,
+              class: "habits-btn habits-btn--ghost",
+              form_class: "habits-action-form" %>
+          <% else %>
+            <%= button_to "Done today",
+              habit_habit_log_path(habit),
+              method: :post,
+              class: "habits-btn habits-btn--primary",
+              form_class: "habits-action-form" %>
+          <% end %>
+
+          <%= link_to "Edit", edit_habit_path(habit), class: "habits-btn habits-btn--ghost" %>
+
+          <%= link_to "Delete", habit_path(habit),
+            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+            class: "habits-btn habits-btn--danger" %>
+        </div>
       </div>
-    </div>
-  <% end %>
-
-  <nav class="nav-grid" style="margin-top: 24px;">
-    <%= link_to "道しるべ", roadmap_path, class: "nav-button secondary" %>
-
-    <%# これが「振り返り検索」= /reviews/search %>
-    <%= link_to "振り返り検索", reviews_search_path, class: "nav-button secondary" %>
-
-    <%# 失われてた4リンク：振り返りページのアンカーに飛ばす（見出し側で id を合わせてね） %>
-    <%= link_to "朝の振り返り", reviews_path(anchor: "link2"), class: "nav-button secondary" %>
-    <%= link_to "夜の振り返り", reviews_path(anchor: "link3"), class: "nav-button secondary" %>
-    <%= link_to "今日の振り返り", reviews_path(anchor: "link4"), class: "nav-button secondary" %>
-    <%= link_to "週まとめ", reviews_path(anchor: "link1"), class: "nav-button secondary" %>
-  </nav>
+    <% end %>
+  </div>
 </div>
