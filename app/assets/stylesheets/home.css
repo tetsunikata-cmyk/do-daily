@@ -89,4 +89,7 @@
   transform: translateY(-5px);
 }
 
-
+.home .home-vibe-blob,
+.home .home-vibe-blob--2 {
+  pointer-events: none;
+}
