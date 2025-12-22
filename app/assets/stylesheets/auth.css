@@ -109,3 +109,139 @@
 .auth__links a:hover {
   color: #fff;
 }
+
+/* 認証ページ共通スコープ */
+.auth {
+  min-height: 100vh;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+}
+
+/* リンクのデフォルト（紫）を上書き */
+.auth a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.auth a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.auth__card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-sizing: border-box;
+}
+
+.auth__title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.auth__field {
+  margin-bottom: 20px;
+}
+
+.auth__label {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
+.auth__hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: normal;
+  display: block;
+  margin-bottom: 4px;
+  margin-left: 4px;
+}
+
+.auth__input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 15px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.auth__input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.auth__input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.auth__submit {
+  width: 100%;
+  height: 48px;
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth__submit:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.auth__links {
+  margin-top: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Deviseエラーメッセージの簡易調整（auth内限定） */
+#error_explanation {
+  background: rgba(255, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #ff8888;
+}
+
+#error_explanation h2 {
+  display: none; /* エラー見出しを隠してシンプルに */
+}
+
+#error_explanation ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
