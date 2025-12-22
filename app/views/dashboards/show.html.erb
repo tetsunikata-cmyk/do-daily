@@ -1,10 +1,13 @@
 <div class="page">
-
   <!-- 画像カード -->
   <div class="black-card">
     <details class="edit-inline">
       <summary>編集</summary>
-      <%= link_to "編集する", mypage_path, class: "review-link" %>
+
+      <%= form_with model: @user, url: mypage_path, method: :patch, local: true, html: { multipart: true } do |f| %>
+        <%= f.file_field :goal_image, accept: "image/*" %>
+        <%= f.submit "保存" %>
+      <% end %>
     </details>
 
     <div class="goal-image-wrapper">
@@ -18,8 +21,16 @@
 
   <!-- 文言カード -->
   <div class="black-card">
-    <h2>達成したい文言</h2>
+    <details class="edit-inline">
+      <summary>編集</summary>
 
+      <%= form_with model: @user, url: mypage_path, method: :patch, local: true do |f| %>
+        <%= f.text_area :vision_text, rows: 3 %>
+        <%= f.submit "保存" %>
+      <% end %>
+    </details>
+
+    <h2>達成したい文言</h2>
     <p class="vision-text">
       <%= @user.vision_text.presence || "2030年にエンジニアリングマネージャーになる。" %>
     </p>
@@ -37,5 +48,4 @@
                 data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
                 class: "nav-link-item" %>
   </nav>
-
 </div>
