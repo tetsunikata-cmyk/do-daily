@@ -8,17 +8,17 @@
     <% @habits.each do |habit| %>
       <div class="habits-card">
         <div class="habits-card__content">
-          <% link_target =
-              if habit.title.include?("link①")
-                morning_reviews_path
-              elsif habit.title.include?("link②")
-                night_reviews_path
-              elsif habit.title.include?("link③")
-                today_reviews_path
-              elsif habit.title.include?("link④")
-                weekly_reviews_path
-              end
-          %>
+         <% link_target =
+          if habit.title.include?("link①")
+          morning_reviews_path
+          elsif habit.title.include?("link②")
+          night_reviews_path
+          elsif habit.title.include?("link③")
+          today_reviews_path
+          elsif habit.title.include?("link④")
+          weekly_reviews_path
+       end
+         %>
 
           <h2 class="habits-title">
             <% if link_target.present? %>
