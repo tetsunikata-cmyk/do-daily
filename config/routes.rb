@@ -21,6 +21,18 @@ Rails.application.routes.draw do
 
   # 習慣
   resources :habits do
-    resource :habit_log, only: [:create, :destroy]
+  resource :habit_log, only: [:create, :destroy]
+
+  # 振り返りショートカット（link①〜④用）
+  get "/reviews/morning", to: "reflections#search", defaults: { type: "morning" }, as: :morning_reviews
+  get "/reviews/night",   to: "reflections#search", defaults: { type: "night" },   as: :night_reviews
+  get "/reviews/today",   to: "reflections#search", defaults: { type: "today" },   as: :today_reviews
+  get "/reviews/week",    to: "reflections#search", defaults: { type: "week" },    as: :weekly_reviews
+
+
+  resource :reviews, only: [:show, :update], controller: "reflections"
+get "reviews/search", to: "reflections#search", as: :reviews_search
+
   end
 end
+
