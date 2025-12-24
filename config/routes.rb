@@ -1,4 +1,3 @@
-# config/routes.rb
 Rails.application.routes.draw do
   devise_for :users
   root "pages#home"
@@ -14,25 +13,23 @@ Rails.application.routes.draw do
   get   "roadmap", to: "roadmaps#show"
   patch "roadmap", to: "roadmaps#update"
 
-  # 振り返り
-  get   "reviews",        to: "reflections#show"    # 振り返りの記入（1日分）
-  patch "reviews",        to: "reflections#update"  # 保存
-  get   "reviews/search", to: "reflections#search"  # 振り返り検索（編集不可）
-
-  # 習慣
-  resources :habits do
-  resource :habit_log, only: [:create, :destroy]
-
-  # 振り返りショートカット（link①〜④用）
-  get "/reviews/morning", to: "reflections#search", defaults: { type: "morning" }, as: :morning_reviews
-  get "/reviews/night",   to: "reflections#search", defaults: { type: "night" },   as: :night_reviews
-  get "/reviews/today",   to: "reflections#search", defaults: { type: "today" },   as: :today_reviews
-  get "/reviews/week",    to: "reflections#search", defaults: { type: "week" },    as: :weekly_reviews
-
-
+  # =========================
+  # 振り返り（記入＆検索）
+  # =========================
   resource :reviews, only: [:show, :update], controller: "reflections"
-get "reviews/search", to: "reflections#search", as: :reviews_search
+  get "reviews/search", to: "reflections#search", as: :reviews_search
 
+  # link①〜④（※「記入ページ」に飛ばす想定）
+  get "reviews/morning", to: "reflections#show", defaults: { type: "morning" }, as: :morning_reviews
+  get "reviews/night",   to: "reflections#show", defaults: { type: "night" },   as: :night_reviews
+  get "reviews/today",   to: "reflections#show", defaults: { type: "today" },   as: :today_reviews
+  get "reviews/week",    to: "reflections#show", defaults: { type: "week" },    as: :weekly_reviews
+
+  # =========================
+  # 習慣
+  # =========================
+  resources :habits do
+    resource :habit_log, only: [:create, :destroy]
   end
 end
 
