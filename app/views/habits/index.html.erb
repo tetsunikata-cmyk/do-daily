@@ -1,24 +1,23 @@
 <div class="habits">
   <div class="habits__header">
     <h1 class="habits__page-title">My Habits</h1>
-    <%= link_to 'New Habit', new_habit_path, class: "habits-btn habits-btn--primary" %>
+    <%= link_to "New Habit", new_habit_path, class: "habits-btn habits-btn--primary" %>
   </div>
 
   <div class="habits__grid">
     <% @habits.each do |habit| %>
       <div class="habits-card">
         <div class="habits-card__content">
-
           <% link_target =
-            if habit.title.include?("link①")
-              reviews_path(type: "morning")
-            elsif habit.title.include?("link②")
-              reviews_path(type: "night")
-            elsif habit.title.include?("link③")
-              reviews_path(type: "today")
-            elsif habit.title.include?("link④")
-              reviews_path(type: "week")
-            end
+              if habit.title.include?("link①")
+                morning_reviews_path
+              elsif habit.title.include?("link②")
+                night_reviews_path
+              elsif habit.title.include?("link③")
+                today_reviews_path
+              elsif habit.title.include?("link④")
+                weekly_reviews_path
+              end
           %>
 
           <h2 class="habits-title">
