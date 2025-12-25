@@ -1,4 +1,25 @@
 <div class="habits">
+
+  <!-- ===== 振り返りショートカット ===== -->
+  <section class="review-shortcuts">
+    <h2 class="review-shortcuts__title">振り返り</h2>
+
+    <div class="review-shortcuts__grid">
+      <%= link_to "① 朝の振り返り →", morning_reviews_path,
+          class: "review-shortcut review-shortcut--primary" %>
+
+      <%= link_to "② 夜の振り返り →", night_reviews_path,
+          class: "review-shortcut review-shortcut--primary" %>
+
+      <%= link_to "③ 今日の振り返り →", today_reviews_path,
+          class: "review-shortcut review-shortcut--primary" %>
+
+      <%= link_to "④ 週まとめ →", weekly_reviews_path,
+          class: "review-shortcut review-shortcut--primary" %>
+    </div>
+  </section>
+
+  <!-- ===== Habit一覧 ===== -->
   <div class="habits__header">
     <h1 class="habits__page-title">My Habits</h1>
     <%= link_to "New Habit", new_habit_path, class: "habits-btn habits-btn--primary" %>
@@ -8,26 +29,7 @@
     <% @habits.each do |habit| %>
       <div class="habits-card">
         <div class="habits-card__content">
-         <% link_target =
-          if habit.title.include?("link①")
-          morning_reviews_path
-          elsif habit.title.include?("link②")
-          night_reviews_path
-          elsif habit.title.include?("link③")
-          today_reviews_path
-          elsif habit.title.include?("link④")
-          weekly_reviews_path
-       end
-         %>
-
-          <h2 class="habits-title">
-            <% if link_target.present? %>
-              <%= link_to habit.title, link_target, class: "habits-title__link" %>
-            <% else %>
-              <%= habit.title %>
-            <% end %>
-          </h2>
-
+          <h2 class="habits-title"><%= habit.title %></h2>
           <p class="habits-desc"><%= habit.description %></p>
         </div>
 
@@ -49,10 +51,9 @@
           <% end %>
 
           <%= link_to "Edit", edit_habit_path(habit), class: "habits-btn habits-btn--ghost" %>
-
           <%= link_to "Delete", habit_path(habit),
-            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-            class: "habits-btn habits-btn--danger" %>
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                class: "habits-btn habits-btn--danger" %>
         </div>
       </div>
     <% end %>
