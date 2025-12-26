@@ -27,61 +27,20 @@
 
   <div class="habits__grid">
     <% @habits.each do |habit| %>
+      <% link_target =
+        if habit.title.include?("link①")
+          morning_reviews_path
+        elsif habit.title.include?("link②")
+          night_reviews_path
+        elsif habit.title.include?("link③")
+          today_reviews_path
+        elsif habit.title.include?("link④")
+          weekly_reviews_path
+        end
+      %>
+
       <div class="habits-card">
         <div class="habits-card__content">
-          <h2 class="habits-title"><%= habit.title %></h2>
-          <p class="habits-desc"><%= habit.description %></p>
-        </div>
-
-        <div class="habits-actions">
-          <% today_log = habit.habit_logs.find_by(done_on: Date.current) %>
-
-          <% if today_log.present? %>
-            <%= button_to "Undo",
-              habit_habit_log_path(habit),
-              method: :delete,
-              class: "habits-btn habits-btn--ghost",
-              form_class: "habits-action-form" %>
-          <% else %>
-            <%= button_to "Done today",
-              habit_habit_log_path(habit),
-              method: :post,
-              class: "habits-btn habits-btn--primary",
-              form_class: "habits-action-form" %>
-          <% end %>
-
-          <%= link_to "Edit", edit_habit_path(habit), class: "habits-btn habits-btn--ghost" %>
-          <%= link_to "Delete", habit_path(habit),
-                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-                class: "habits-btn habits-btn--danger" %>
-        </div>
-      </div>
-    <% end %>
-  </div>
-</div>
-
-<div class="habits">
-  <div class="habits__header">
-    <h1 class="habits__page-title">My Habits</h1>
-    <%= link_to 'New Habit', new_habit_path, class: "habits-btn habits-btn--primary" %>
-  </div>
-
-  <div class="habits__grid">
-    <% @habits.each do |habit| %>
-      <div class="habits-card">
-        <div class="habits-card__content">
-          <% link_target =
-             if habit.title.include?("link①")
-               morning_reviews_path
-             elsif habit.title.include?("link②")
-               night_reviews_path
-             elsif habit.title.include?("link③")
-               today_reviews_path
-             elsif habit.title.include?("link④")
-               weekly_reviews_path
-             end
-          %>
-
           <h2 class="habits-title">
             <% if link_target.present? %>
               <%= link_to habit.title, link_target, class: "habits-title__link" %>
@@ -113,8 +72,8 @@
           <%= link_to "Edit", edit_habit_path(habit), class: "habits-btn habits-btn--ghost" %>
 
           <%= link_to "Delete", habit_path(habit),
-            data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-            class: "habits-btn habits-btn--danger" %>
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                class: "habits-btn habits-btn--danger" %>
         </div>
       </div>
     <% end %>
