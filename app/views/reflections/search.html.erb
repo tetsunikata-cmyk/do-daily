@@ -60,5 +60,7 @@
     <%= link_to "ログアウト", destroy_user_session_path,
                 data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
                 class: "nav-button" %>
+
+    <%= render "shared/bottom_nav" %>
   </nav>
 </div>
