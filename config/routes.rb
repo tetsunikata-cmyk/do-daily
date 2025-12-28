@@ -24,7 +24,13 @@ Rails.application.routes.draw do
   get "reviews/week",    to: "reflections#show", defaults: { type: "week" },    as: :weekly_reviews
 
   resources :habits do
-    resource :habit_log, only: [:create, :destroy]
+  resource :habit_log, only: [:create, :destroy]
+
+  get "schedule", to: "schedules#month"
+  get "schedule/week", to: "schedules#week"
+  get "schedule/day", to: "schedules#day"
+
+resources :schedule_events, only: [:create, :update, :destroy]
   end
 end
 
