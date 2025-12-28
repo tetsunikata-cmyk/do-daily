@@ -1,33 +1,45 @@
 class ScheduleEventsController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_habit
   before_action :set_event, only: [:update, :destroy]
 
   def create
-    event = current_user.schedule_events.new(event_params)
+    event = @habit.schedule_events.new(event_params)
+
     if event.save
-      redirect_back fallback_location: schedule_path, notice: "予定を追加しました"
+      redirect_back fallback_location: habit_schedule_day_path(@habit, date: event.starts_at.to_date),
+                    notice: "予定を追加しました"
     else
-      redirect_back fallback_location: schedule_path, alert: event.errors.full_messages.first
+      redirect_back fallback_location: habit_schedule_day_path(@habit),
+                    alert: event.errors.full_messages.first
     end
   end
 
   def update
     if @event.update(event_params)
-      redirect_back fallback_location: schedule_path, notice: "予定を更新しました"
+      redirect_back fallback_location: habit_schedule_day_path(@habit, date: @event.starts_at.to_date),
+                    notice: "予定を更新しました"
     else
-      redirect_back fallback_location: schedule_path, alert: @event.errors.full_messages.first
+      redirect_back fallback_location: habit_schedule_day_path(@habit),
+                    alert: @event.errors.full_messages.first
     end
   end
 
   def destroy
+    day = @event.starts_at.to_date
     @event.destroy
-    redirect_back fallback_location: schedule_path, notice: "予定を削除しました"
+    redirect_back fallback_location: habit_schedule_day_path(@habit, date: day),
+                  notice: "予定を削除しました"
   end
 
   private
 
+  def set_habit
+    @habit = current_user.habits.find(params[:habit_id])
+  end
+
   def set_event
-    @event = current_user.schedule_events.find(params[:id])
+    @event = @habit.schedule_events.find(params[:id])
   end
 
   def event_params

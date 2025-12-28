@@ -4,20 +4,34 @@
   <div class="black-card">
     <div class="schedule-top">
       <div class="schedule-switch">
-        <%= link_to "月", schedule_path(date: @selected_date), class: "seg-btn #{'is-active' if @view == :month}" %>
-        <%= link_to "週", schedule_week_path(date: @selected_date), class: "seg-btn #{'is-active' if @view == :week}" %>
-        <%= link_to "日", schedule_day_path(date: @selected_date), class: "seg-btn #{'is-active' if @view == :day}" %>
+        <%= link_to "月",
+          habit_schedule_path(@habit, date: @selected_date),
+          class: "seg-btn #{'is-active' if @view == :month}" %>
+
+        <%= link_to "週",
+          habit_schedule_week_path(@habit, date: @selected_date),
+          class: "seg-btn #{'is-active' if @view == :week}" %>
+
+        <%= link_to "日",
+          habit_schedule_day_path(@habit, date: @selected_date),
+          class: "seg-btn #{'is-active' if @view == :day}" %>
       </div>
 
       <div class="schedule-nav">
-        <%= link_to "←", schedule_day_path(date: (@selected_date - 1.day)), class: "nav-arrow" %>
+        <%= link_to "←",
+          habit_schedule_day_path(@habit, date: (@selected_date - 1.day)),
+          class: "nav-arrow" %>
+
         <div class="nav-title"><%= @selected_date.strftime("%Y/%-m/%-d") %></div>
-        <%= link_to "→", schedule_day_path(date: (@selected_date + 1.day)), class: "nav-arrow" %>
+
+        <%= link_to "→",
+          habit_schedule_day_path(@habit, date: (@selected_date + 1.day)),
+          class: "nav-arrow" %>
       </div>
     </div>
 
     <div class="day-form">
-      <%= form_with model: @new_event, url: schedule_events_path, local: true do |f| %>
+      <%= form_with model: @new_event, url: habit_schedule_events_path(@habit), local: true do |f| %>
         <div class="form-row">
           <%= f.text_field :title, placeholder: "予定タイトル", class: "form-input" %>
           <%= f.text_field :location, placeholder: "場所", class: "form-input" %>
@@ -51,7 +65,7 @@
             <details class="edit-inline">
               <summary class="habits-btn habits-btn--ghost">Edit</summary>
 
-              <%= form_with model: e, url: schedule_event_path(e), method: :patch, local: true do |f| %>
+              <%= form_with model: e, url: habit_schedule_event_path(@habit, e), method: :patch, local: true do |f| %>
                 <div class="form-row">
                   <%= f.text_field :title, class: "form-input" %>
                   <%= f.text_field :location, class: "form-input" %>
@@ -66,9 +80,10 @@
               <% end %>
             </details>
 
-            <%= link_to "Delete", schedule_event_path(e),
-                data: { turbo_method: :delete, turbo_confirm: "削除する？" },
-                class: "habits-btn habits-btn--danger" %>
+            <%= link_to "Delete",
+              habit_schedule_event_path(@habit, e),
+              data: { turbo_method: :delete, turbo_confirm: "削除する？" },
+              class: "habits-btn habits-btn--danger" %>
           </div>
         </div>
       <% end %>
