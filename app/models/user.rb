@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_one_attached :goal_image
   has_many :habits, dependent: :destroy
   has_many :reflections, dependent: :destroy
+  has_many :schedule_events, dependent: :destroy
 end
