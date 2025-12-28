@@ -1,5 +1,7 @@
+# app/models/schedule_event.rb
 class ScheduleEvent < ApplicationRecord
   belongs_to :user
+  belongs_to :habit  # 追加
 
   validates :title, presence: true, length: { maximum: 60 }
   validates :location, presence: true, length: { maximum: 60 }

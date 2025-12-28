@@ -1,6 +1,7 @@
 class Habit < ApplicationRecord
   belongs_to :user
   has_many :habit_logs, dependent: :destroy
+  has_many :schedule_events, dependent: :destroy
 
   enum category: { morning: 0, gap: 1, night: 2, other: 3 }, _default: :morning
 

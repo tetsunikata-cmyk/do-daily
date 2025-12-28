@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_28_221248) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_28_233556) do
   create_table "active_storage_attachments", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -79,6 +79,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_28_221248) do
     t.text "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "habit_id", null: false
+    t.index ["habit_id"], name: "index_schedule_events_on_habit_id"
     t.index ["user_id"], name: "index_schedule_events_on_user_id"
   end
 
@@ -105,5 +107,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_28_221248) do
   add_foreign_key "habit_logs", "habits"
   add_foreign_key "habits", "users"
   add_foreign_key "reflections", "users"
+  add_foreign_key "schedule_events", "habits"
   add_foreign_key "schedule_events", "users"
 end
