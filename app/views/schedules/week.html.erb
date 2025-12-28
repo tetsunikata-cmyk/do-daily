@@ -1,0 +1,51 @@
+<div class="page">
+  <div class="page-header">My Schedule</div>
+
+  <div class="black-card">
+    <div class="schedule-top">
+      <div class="schedule-switch">
+        <%= link_to "月", schedule_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :month}" %>
+        <%= link_to "週", schedule_week_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :week}" %>
+        <%= link_to "日", schedule_day_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :day}" %>
+      </div>
+
+      <div class="schedule-nav">
+        <%= link_to "←", schedule_week_path(date: (@base_date - 7.days)), class: "nav-arrow" %>
+        <div class="nav-title">
+          <%= @days.first.strftime("%-m/%-d") %> 〜 <%= @days.last.strftime("%-m/%-d") %>
+        </div>
+        <%= link_to "→", schedule_week_path(date: (@base_date + 7.days)), class: "nav-arrow" %>
+      </div>
+    </div>
+
+    <div class="week-grid">
+      <% @days.each do |d| %>
+        <% events = @events_by_day[d] || [] %>
+        <div class="week-col">
+          <div class="week-head">
+            <div class="week-dow"><%= %w[月 火 水 木 金 土 日][d.cwday - 1] %></div>
+            <%= link_to d.strftime("%-m/%-d"), schedule_day_path(date: d), class: "week-date" %>
+          </div>
+
+          <div class="week-events">
+            <% events.each do |e| %>
+              <div class="week-item">
+                <div class="week-time"><%= e.starts_at.strftime("%H:%M") %></div>
+                <div class="week-main">
+                  <div class="week-title"><%= e.title %></div>
+                  <div class="week-loc"><%= e.location %></div>
+                </div>
+              </div>
+            <% end %>
+
+            <% if events.empty? %>
+              <div class="week-empty">—</div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render "shared/bottom_nav" %>
+</div>
