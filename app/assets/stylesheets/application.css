@@ -215,3 +215,61 @@
 .habits-bottom-nav {
   margin-top: 28px;
 }
+
+/* Roadmap: 編集フォームがカードから飛び出さないように */
+.black-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-inline {
+  display: block;
+}
+
+.edit-inline > summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 編集中の中身をカード内に収める */
+.edit-inline[open] {
+  margin-top: 10px;
+}
+
+.roadmap-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.roadmap-year-select {
+  min-width: 110px;
+}
+
+.roadmap-title-input {
+  flex: 1;
+  min-width: 220px;
+}
+
+/* 年間スケジュール編集テーブル：横スクロール許可 */
+.yearly-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.yearly-table td,
+.yearly-table th {
+  padding: 10px;
+}
+
+.yearly-table-readonly {
+  margin-top: 12px;
+}
+
+.black-card .yearly-table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
