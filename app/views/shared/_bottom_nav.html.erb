@@ -1,9 +1,19 @@
 <nav class="nav-grid">
   <%= link_to "道しるべを見る", roadmap_path, class: "nav-link-item" %>
   <%= link_to "振り返り検索を見る", reviews_search_path, class: "nav-link-item" %>
-  <%= link_to "My Schedule", schedule_path, class: "nav-link-item" %>
+
+  <% schedule_habit = (defined?(@habit) && @habit.present?) ? @habit : current_user.habits.first %>
+  <% if schedule_habit.present? %>
+    <%= link_to "My Schedule",
+      habit_schedule_day_path(schedule_habit, date: Date.current),
+      class: "nav-link-item" %>
+  <% else %>
+    <%= link_to "My Schedule", habits_path, class: "nav-link-item" %>
+  <% end %>
+
   <%= link_to "My page", mypage_path, class: "nav-link-item" %>
   <%= link_to "目標実現ボタン", habits_path, class: "nav-link-item" %>
+
   <%= link_to "ログアウト", destroy_user_session_path,
       data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },
       class: "nav-link-item" %>
