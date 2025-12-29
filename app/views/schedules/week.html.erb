@@ -4,17 +4,31 @@
   <div class="black-card">
     <div class="schedule-top">
       <div class="schedule-switch">
-        <%= link_to "月", schedule_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :month}" %>
-        <%= link_to "週", schedule_week_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :week}" %>
-        <%= link_to "日", schedule_day_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :day}" %>
+        <%= link_to "月",
+          habit_schedule_path(@habit, date: (@selected_date || @base_date)),
+          class: "seg-btn #{'is-active' if @view == :month}" %>
+
+        <%= link_to "週",
+          habit_schedule_week_path(@habit, date: (@selected_date || @base_date)),
+          class: "seg-btn #{'is-active' if @view == :week}" %>
+
+        <%= link_to "日",
+          habit_schedule_day_path(@habit, date: (@selected_date || @base_date)),
+          class: "seg-btn #{'is-active' if @view == :day}" %>
       </div>
 
       <div class="schedule-nav">
-        <%= link_to "←", schedule_week_path(date: (@base_date - 7.days)), class: "nav-arrow" %>
+        <%= link_to "←",
+          habit_schedule_week_path(@habit, date: ((@selected_date || @base_date) - 7.days)),
+          class: "nav-arrow" %>
+
         <div class="nav-title">
           <%= @days.first.strftime("%-m/%-d") %> 〜 <%= @days.last.strftime("%-m/%-d") %>
         </div>
-        <%= link_to "→", schedule_week_path(date: (@base_date + 7.days)), class: "nav-arrow" %>
+
+        <%= link_to "→",
+          habit_schedule_week_path(@habit, date: ((@selected_date || @base_date) + 7.days)),
+          class: "nav-arrow" %>
       </div>
     </div>
 
@@ -24,7 +38,9 @@
         <div class="week-col">
           <div class="week-head">
             <div class="week-dow"><%= %w[月 火 水 木 金 土 日][d.cwday - 1] %></div>
-            <%= link_to d.strftime("%-m/%-d"), schedule_day_path(date: d), class: "week-date" %>
+            <%= link_to d.strftime("%-m/%-d"),
+              habit_schedule_day_path(@habit, date: d),
+              class: "week-date" %>
           </div>
 
           <div class="week-events">

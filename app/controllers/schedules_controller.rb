@@ -4,34 +4,34 @@ class SchedulesController < ApplicationController
 
   def month
     @view = :month
-    @base_date = parse_date(params[:date]) # その月の基準日
+    @selected_date = parse_date(params[:date])
+    @base_date = @selected_date
 
     from = @base_date.beginning_of_month.beginning_of_week(:monday)
     to   = @base_date.end_of_month.end_of_week(:monday)
 
     @days = (from..to).to_a
 
-    # ★ habitに紐づく予定だけ
     @events = @habit.schedule_events
-                   .where(starts_at: from.beginning_of_day..to.end_of_day)
-                   .order(:starts_at)
+                    .where(starts_at: from.beginning_of_day..to.end_of_day)
+                    .order(:starts_at)
 
     @events_by_day = @events.group_by { |e| e.starts_at.to_date }
   end
 
   def week
     @view = :week
-    @base_date = parse_date(params[:date])
+    @selected_date = parse_date(params[:date])
+    @base_date = @selected_date
 
     from = @base_date.beginning_of_week(:monday)
     to   = @base_date.end_of_week(:monday)
 
     @days = (from..to).to_a
 
-    # ★ habitに紐づく予定だけ
     @events = @habit.schedule_events
-                   .where(starts_at: from.beginning_of_day..to.end_of_day)
-                   .order(:starts_at)
+                    .where(starts_at: from.beginning_of_day..to.end_of_day)
+                    .order(:starts_at)
 
     @events_by_day = @events.group_by { |e| e.starts_at.to_date }
   end
@@ -43,12 +43,12 @@ class SchedulesController < ApplicationController
     from = @selected_date.beginning_of_day
     to   = @selected_date.end_of_day
 
-    # ★ habitに紐づく予定だけ
     @events = @habit.schedule_events
-                   .where(starts_at: from..to)
-                   .order(:starts_at)
+                    .where(starts_at: from..to)
+                    .order(:starts_at)
 
     @new_event = @habit.schedule_events.new(
+      user: current_user,
       starts_at: @selected_date.change(hour: 9, min: 0),
       ends_at:   @selected_date.change(hour: 10, min: 0)
     )
@@ -63,7 +63,7 @@ class SchedulesController < ApplicationController
   def parse_date(v)
     return Date.current if v.blank?
     Date.parse(v.to_s)
-  rescue
+  rescue ArgumentError
     Date.current
   end
 end

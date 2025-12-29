@@ -12,7 +12,6 @@
   <% end %>
 
   <%= link_to "My page", mypage_path, class: "nav-link-item" %>
-  <%= link_to "目標実現ボタン", habits_path, class: "nav-link-item" %>
 
   <%= link_to "ログアウト", destroy_user_session_path,
       data: { turbo_method: :delete, turbo_confirm: "ログアウトしますか？" },

@@ -4,24 +4,43 @@
   <div class="black-card">
     <div class="schedule-top">
       <div class="schedule-switch">
-        <%= link_to "月", schedule_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :month}" %>
-        <%= link_to "週", schedule_week_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :week}" %>
-        <%= link_to "日", schedule_day_path(date: @base_date), class: "seg-btn #{'is-active' if @view == :day}" %>
+        <%= link_to "月",
+          habit_schedule_path(@habit, date: (@selected_date || @base_date)),
+          class: "seg-btn #{'is-active' if @view == :month}" %>
+
+        <%= link_to "週",
+          habit_schedule_week_path(@habit, date: (@selected_date || @base_date)),
+          class: "seg-btn #{'is-active' if @view == :week}" %>
+
+        <%= link_to "日",
+          habit_schedule_day_path(@habit, date: (@selected_date || @base_date)),
+          class: "seg-btn #{'is-active' if @view == :day}" %>
       </div>
 
       <div class="schedule-nav">
-        <%= link_to "←", schedule_path(date: (@base_date - 1.month)), class: "nav-arrow" %>
-        <div class="nav-title"><%= @base_date.strftime("%Y年%-m月") %></div>
-        <%= link_to "→", schedule_path(date: (@base_date + 1.month)), class: "nav-arrow" %>
+        <%= link_to "←",
+          habit_schedule_path(@habit, date: ((@selected_date || @base_date) - 1.month)),
+          class: "nav-arrow" %>
+
+        <div class="nav-title"><%= (@selected_date || @base_date).strftime("%Y年%-m月") %></div>
+
+        <%= link_to "→",
+          habit_schedule_path(@habit, date: ((@selected_date || @base_date) + 1.month)),
+          class: "nav-arrow" %>
       </div>
     </div>
 
     <div class="calendar">
+      <% base = (@selected_date || @base_date) %>
+
       <% @days.each_slice(7) do |week| %>
         <div class="calendar-row">
           <% week.each do |d| %>
             <% events = @events_by_day[d] || [] %>
-            <%= link_to schedule_day_path(date: d), class: "day-cell #{'is-out' if d.month != @base_date.month}" do %>
+
+            <%= link_to habit_schedule_day_path(@habit, date: d),
+              class: "day-cell #{'is-out' if d.month != base.month}" do %>
+
               <div class="day-head">
                 <span class="day-num"><%= d.day %></span>
               </div>
@@ -33,10 +52,12 @@
                     <span class="chip-title"><%= e.title %></span>
                   </div>
                 <% end %>
+
                 <% if events.size > 3 %>
                   <div class="chip-more">+<%= events.size - 3 %></div>
                 <% end %>
               </div>
+
             <% end %>
           <% end %>
         </div>
