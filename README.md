@@ -30,6 +30,10 @@ https://do-daily.onrender.com
 
 ---
 
+## データベース設計（ER図）
+
+![ER図](docs/er_diagram.png)
+
 ## 利用方法
 
 ### ① 習慣（Habit）の登録・実行
