@@ -31,15 +31,14 @@
     </div>
 
     <!-- 表示用リスト -->
-    <ul class="roadmap-list">
-      <% @roadmap_items.each do |item| %>
-        <% next if item[:title].blank? %>
-        <li>
-          <span class="roadmap-year"><%= item[:year] %>年</span>
-          <span class="roadmap-text"><%= item[:title] %></span>
-        </li>
-      <% end %>
-    </ul>
+   <ul class="roadmap-list">
+    <% @roadmap_items.each do |item| %>
+    <li>
+      <span class="roadmap-year"><%= item[:year] %>年</span>
+      <span class="roadmap-text"><%= item[:title].presence || "—" %></span>
+    </li>
+    <% end %>
+   </ul>
   </div>
 
   <!-- ===== 年間スケジュール ===== -->
