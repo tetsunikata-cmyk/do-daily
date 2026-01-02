@@ -40,30 +40,31 @@
     </ul>
   </div>
 
-  <!-- ===== 年間スケジュール ===== -->
-  <div class="black-card">
-    <div class="card-header-row">
-      <div class="card-header-left">
-        <h2>年間スケジュール</h2>
-        <span class="year-label"><%= @schedule_year %>年</span>
-      </div>
+   <!-- ===== 年間スケジュール ===== -->
+<div class="black-card">
+  <div class="card-header-row">
+    <div class="card-header-left">
+      <h2>年間スケジュール</h2>
+      <span class="year-label"><%= @schedule_year %>年</span>
+    </div>
 
-      <details class="edit-inline">
-        <summary>編集</summary>
+    <details class="edit-inline">
+      <summary>編集</summary>
 
-        <!-- 年変更 -->
-        <%= form_with url: roadmap_path, method: :get, local: true do %>
-          <div style="margin-top: 8px;">
-            <label style="font-size: 12px;">表示する年</label><br>
-            <%= select_tag :year,
-                  options_for_select(@schedule_year_options, @schedule_year),
-                  class: "roadmap-year-select" %>
-            <%= submit_tag "変更", style: "margin-left: 4px; font-size: 12px;" %>
-          </div>
-        <% end %>
+      <!-- 表示する年を変更（GET） -->
+      <%= form_with url: roadmap_path, method: :get, local: true do %>
+        <div style="margin-top: 8px;">
+          <label style="font-size: 12px;">表示する年を選択</label><br>
+          <%= select_tag :year,
+                options_for_select(@schedule_year_options, @schedule_year),
+                class: "roadmap-year-select" %>
+          <%= submit_tag "変更", style: "margin-left: 4px; font-size: 12px;" %>
+        </div>
+      <% end %>
 
-        <!-- 編集用 -->
-        <%= form_with url: roadmap_path, method: :patch, local: true do |f| %>
+      <!-- 年間スケジュール編集（PATCH） -->
+      <%= form_with url: roadmap_path, method: :patch, local: true do |f| %>
+        <div class="yearly-table-wrap">
           <table class="yearly-table">
             <thead>
               <tr>
@@ -81,27 +82,29 @@
                     <%= text_field_tag "schedule[#{month}][plan]",
                                        row[:plan],
                                        class: "yearly-input",
-                                       placeholder: "例：学習の継続" %>
+                                       placeholder: "" %>
                   </td>
                   <td>
                     <%= text_field_tag "schedule[#{month}][target]",
                                        row[:target],
                                        class: "yearly-input",
-                                       placeholder: "例：基礎理解の定着" %>
+                                       placeholder: "" %>
                   </td>
                 </tr>
               <% end %>
             </tbody>
           </table>
+        </div>
 
-          <div class="roadmap-actions">
-            <%= f.submit "保存", class: "habit-edit-submit" %>
-          </div>
-        <% end %>
-      </details>
-    </div>
+        <div class="roadmap-actions">
+          <%= f.submit "保存", class: "habit-edit-submit" %>
+        </div>
+      <% end %>
+    </details>
+  </div>
 
-    <!-- 表示用 -->
+  <!-- 表示用テーブル（読み取り専用） -->
+  <div class="yearly-table-wrap">
     <table class="yearly-table yearly-table-readonly">
       <thead>
         <tr>
@@ -122,6 +125,6 @@
       </tbody>
     </table>
   </div>
-
+</div>
   <%= render "shared/bottom_nav" %>
 </div>
