@@ -1,12 +1,11 @@
 <div class="page">
   <div class="page-header">道しるべを見る</div>
 
-  <!-- ===== 道しるべ ===== -->
+  <!-- ===== 道しるべ（5年分） ===== -->
   <div class="black-card">
     <div class="card-header-row">
       <h2>道しるべ</h2>
 
-      <!-- 編集ボタンで開く -->
       <details class="edit-inline">
         <summary>編集</summary>
 
@@ -16,10 +15,11 @@
               <%= select_tag "roadmap[#{idx}][year]",
                              options_for_select(@roadmap_year_options, item[:year]),
                              class: "roadmap-year-select" %>
+
               <%= text_field_tag "roadmap[#{idx}][title]",
                                  item[:title],
                                  class: "roadmap-title-input",
-                                 placeholder: "例：世界大会優勝" %>
+                                 placeholder: "例：専門スキルの確立" %>
             </div>
           <% end %>
 
@@ -30,15 +30,15 @@
       </details>
     </div>
 
-    <!-- 表示用リスト -->
-   <ul class="roadmap-list">
-    <% @roadmap_items.each do |item| %>
-    <li>
-      <span class="roadmap-year"><%= item[:year] %>年</span>
-      <span class="roadmap-text"><%= item[:title].presence || "—" %></span>
-    </li>
-    <% end %>
-   </ul>
+    <!-- 表示用 -->
+    <ul class="roadmap-list">
+      <% @roadmap_items.each do |item| %>
+        <li>
+          <span class="roadmap-year"><%= item[:year] %>年</span>
+          <span class="roadmap-text"><%= item[:title].presence || "—" %></span>
+        </li>
+      <% end %>
+    </ul>
   </div>
 
   <!-- ===== 年間スケジュール ===== -->
@@ -49,14 +49,13 @@
         <span class="year-label"><%= @schedule_year %>年</span>
       </div>
 
-      <!-- 年の変更＆スケジュール編集をまとめた編集ボタン -->
       <details class="edit-inline">
         <summary>編集</summary>
 
-        <!-- 表示する年を変更（GET） -->
-        <%= form_with url: roadmap_path, method: :get, local: true do %>
+        <!-- 表示年変更 -->
+        <%= form_with url: roadmap_path, method: :get, local: true, class: "schedule-year-form" do %>
           <div style="margin-top: 8px;">
-            <label style="font-size: 12px;">表示する年を選択</label><br>
+            <label style="font-size: 12px;">表示する年</label><br>
             <%= select_tag :year,
                   options_for_select(@schedule_year_options, @schedule_year),
                   class: "roadmap-year-select" %>
@@ -64,44 +63,46 @@
           </div>
         <% end %>
 
-        <!-- 年間スケジュール編集（PATCH） -->
-        <%= form_with url: roadmap_path, method: :patch, local: true do |f| %>
-          <table class="yearly-table">
-            <thead>
-              <tr>
-                <th>月</th>
-                <th>予定</th>
-                <th>目標</th>
-                <th>結果</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% (1..12).each do |month| %>
-                <% row = @yearly_schedule[month] || { plan: "", target: "", result: "" } %>
+        <!-- 編集用テーブル -->
+        <%= form_with url: roadmap_path, method: :patch, local: true, class: "schedule-edit-form" do |f| %>
+          <div class="yearly-table-wrap">
+            <table class="yearly-table">
+              <thead>
                 <tr>
-                  <td class="yearly-month"><%= month %>月</td>
-                  <td>
-                    <%= text_field_tag "schedule[#{month}][plan]",
-                                       row[:plan],
-                                       class: "yearly-input",
-                                       placeholder: "例：地方大会①" %>
-                  </td>
-                  <td>
-                    <%= text_field_tag "schedule[#{month}][target]",
-                                       row[:target],
-                                       class: "yearly-input",
-                                       placeholder: "例：ベスト32" %>
-                  </td>
-                  <td>
-                    <%= text_field_tag "schedule[#{month}][result]",
-                                       row[:result],
-                                       class: "yearly-input",
-                                       placeholder: "例：ベスト8" %>
-                  </td>
+                  <th>月</th>
+                  <th>予定</th>
+                  <th>目標</th>
+                  <th>結果</th>
                 </tr>
-              <% end %>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <% (1..12).each do |month| %>
+                  <% row = @yearly_schedule[month] || { plan: "", target: "", result: "" } %>
+                  <tr>
+                    <td class="yearly-month"><%= month %>月</td>
+                    <td>
+                      <%= text_field_tag "schedule[#{month}][plan]",
+                                         row[:plan],
+                                         class: "yearly-input",
+                                         placeholder: "例：学習計画の実行" %>
+                    </td>
+                    <td>
+                      <%= text_field_tag "schedule[#{month}][target]",
+                                         row[:target],
+                                         class: "yearly-input",
+                                         placeholder: "例：理解度向上" %>
+                    </td>
+                    <td>
+                      <%= text_field_tag "schedule[#{month}][result]",
+                                         row[:result],
+                                         class: "yearly-input",
+                                         placeholder: "例：達成 / 未達成" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
 
           <div class="roadmap-actions">
             <%= f.submit "保存", class: "habit-edit-submit" %>
@@ -110,29 +111,31 @@
       </details>
     </div>
 
-    <!-- 表示用テーブル（読み取り専用） -->
-    <table class="yearly-table yearly-table-readonly">
-      <thead>
-        <tr>
-          <th>月</th>
-          <th>予定</th>
-          <th>目標</th>
-          <th>結果</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% (1..12).each do |month| %>
-          <% row = @yearly_schedule[month] || { plan: "", target: "", result: "" } %>
+    <!-- 読み取り専用 -->
+    <div class="yearly-table-wrap">
+      <table class="yearly-table yearly-table-readonly">
+        <thead>
           <tr>
-            <td class="yearly-month"><%= month %>月</td>
-            <td><%= row[:plan].presence   || "—" %></td>
-            <td><%= row[:target].presence || "—" %></td>
-            <td><%= row[:result].presence || "—" %></td>
+            <th>月</th>
+            <th>予定</th>
+            <th>目標</th>
+            <th>結果</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% (1..12).each do |month| %>
+            <% row = @yearly_schedule[month] || { plan: "", target: "", result: "" } %>
+            <tr>
+              <td class="yearly-month"><%= month %>月</td>
+              <td><%= row[:plan].presence   || "—" %></td>
+              <td><%= row[:target].presence || "—" %></td>
+              <td><%= row[:result].presence || "—" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-   <%= render "shared/bottom_nav" %>
+  <%= render "shared/bottom_nav" %>
 </div>

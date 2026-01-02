@@ -381,3 +381,51 @@
   .form-row{ grid-template-columns:1fr; }
   .day-time{ width:88px; }
 }
+
+/* ===== 年間スケジュールの編集テーブル崩れ対策 ===== */
+
+/* テーブルを固定レイアウトにして列幅崩壊を止める */
+.yearly-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* セルの余白と折返し */
+.yearly-table th,
+.yearly-table td {
+  padding: 10px 8px;
+  vertical-align: middle;
+  word-break: break-word;
+}
+
+/* 月の列は固定幅にする */
+.yearly-table .yearly-month {
+  width: 60px;
+  white-space: nowrap;
+}
+
+/* inputをセル内に必ず収める（はみ出し防止） */
+.yearly-input {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* placeholderが長くても崩れないように */
+.yearly-input::placeholder {
+  font-size: 12px;
+}
+
+/* 画面が狭いときは横スクロールで破綻を回避 */
+.yearly-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 横スクロール時にテーブルが縮みすぎないように最低幅を確保 */
+.yearly-table {
+  min-width: 640px;
+}
